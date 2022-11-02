@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.CreateProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class CreateProjectCommand : IRequest<Guid>
 {

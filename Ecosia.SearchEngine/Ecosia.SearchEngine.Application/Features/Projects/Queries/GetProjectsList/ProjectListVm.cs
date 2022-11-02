@@ -1,4 +1,4 @@
-namespace Ecosia.SearchEngine.Application.Features.Projects.Queries.GetProjectsList;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 
 public class ProjectListVm
 {

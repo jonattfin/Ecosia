@@ -1,9 +1,7 @@
 using AutoMapper;
-using Ecosia.SearchEngine.Application.Features.Projects.Commands.CreateProject;
-using Ecosia.SearchEngine.Application.Features.Projects.Commands.UpdateProject;
-using Ecosia.SearchEngine.Application.Features.Projects.Queries.GetProjectDetail;
-using Ecosia.SearchEngine.Application.Features.Projects.Queries.GetProjectsList;
-using Ecosia.SearchEngine.Application.Features.Reports.Queries.GetReportDetail;
+using Ecosia.SearchEngine.Application.Features.Projects.Commands;
+using Ecosia.SearchEngine.Application.Features.Projects.Queries;
+using Ecosia.SearchEngine.Application.Features.Reports.Queries;
 using Ecosia.SearchEngine.Domain.Entities;
 
 namespace Ecosia.SearchEngine.Application.Profiles;

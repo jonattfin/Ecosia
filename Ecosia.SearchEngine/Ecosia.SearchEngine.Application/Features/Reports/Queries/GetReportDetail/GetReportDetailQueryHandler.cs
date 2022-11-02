@@ -3,7 +3,7 @@ using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Reports.Queries.GetReportDetail;
+namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
 public class GetReportDetailQueryHandler : IRequestHandler<GetReportDetailQuery, ReportDetailVm>
 {

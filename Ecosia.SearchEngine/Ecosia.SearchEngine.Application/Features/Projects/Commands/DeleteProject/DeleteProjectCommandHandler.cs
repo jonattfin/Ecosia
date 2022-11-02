@@ -2,7 +2,7 @@ using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.DeleteProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
 {

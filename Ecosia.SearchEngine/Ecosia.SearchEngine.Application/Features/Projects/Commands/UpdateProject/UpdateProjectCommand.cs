@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.UpdateProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class UpdateProjectCommand : IRequest
 {

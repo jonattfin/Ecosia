@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.DeleteProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class DeleteProjectCommand : IRequest
 {

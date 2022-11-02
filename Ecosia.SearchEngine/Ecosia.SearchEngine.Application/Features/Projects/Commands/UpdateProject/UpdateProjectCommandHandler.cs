@@ -3,7 +3,7 @@ using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.UpdateProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand>
 {

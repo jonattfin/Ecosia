@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Ecosia.SearchEngine.Application.Features.Projects.Commands.CreateProject;
+namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {
