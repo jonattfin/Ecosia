@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecosia.SearchEngine.Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecosia.SearchEngine.Api", "Ecosia.SearchEngine.Api\Ecosia.SearchEngine.Api.csproj", "{264DCF51-1E59-425D-9BD7-72DDD096A3B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecosia.SearchEngine.Application.UnitTests", "Ecosia.SearchEngine.Application.UnitTests\Ecosia.SearchEngine.Application.UnitTests.csproj", "{4BACD9BB-91ED-4042-8181-F50397CBAD52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,7 @@ Global
 		{F57B5986-3C3A-4F4F-8A1B-569E1E9872A3} = {4FED9CD3-5882-4588-9CB0-4EF00A918EEA}
 		{8C8B1561-FEB3-4D14-9DD1-58E58454683D} = {4FED9CD3-5882-4588-9CB0-4EF00A918EEA}
 		{264DCF51-1E59-425D-9BD7-72DDD096A3B5} = {6358A150-E1B9-4B42-97B7-51C56DB3AEC8}
+		{4BACD9BB-91ED-4042-8181-F50397CBAD52} = {A9983435-8AAF-4D77-9488-D804DDCAA2AB}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4A317599-9E21-4388-9EA8-D0E9F016A0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,5 +62,9 @@ Global
 		{264DCF51-1E59-425D-9BD7-72DDD096A3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264DCF51-1E59-425D-9BD7-72DDD096A3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{264DCF51-1E59-425D-9BD7-72DDD096A3B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BACD9BB-91ED-4042-8181-F50397CBAD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BACD9BB-91ED-4042-8181-F50397CBAD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BACD9BB-91ED-4042-8181-F50397CBAD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BACD9BB-91ED-4042-8181-F50397CBAD52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
