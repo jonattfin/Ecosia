@@ -16,7 +16,7 @@ public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, L
         _mapper = mapper;
     }
 
-    public async Task<List<ReportListVm>> Handle(GetReportsListQuery request, CancellationToken cancellationToken)
+    public async Task<List<ReportListVm>> Handle(GetReportsListQuery query, CancellationToken cancellationToken)
     {
         var reports = await _reportRepository.ListAllAsync();
         return _mapper.Map<List<ReportListVm>>(reports);

@@ -21,15 +21,15 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         _emailService = emailService;
     }
     
-    public async Task<Guid> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateProjectCommand command, CancellationToken cancellationToken)
     {
         var validator = new CreateProjectCommandValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (validationResult.Errors.Any())
             throw new ValidationException(validationResult);
             
-        var project = _mapper.Map<Project>(request);
+        var project = _mapper.Map<Project>(command);
         project = await _projectRepository.AddAsync(project);
 
         try

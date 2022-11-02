@@ -37,9 +37,9 @@ public class ProjectController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Post(CreateProjectCommand request)
+    public async Task<IActionResult> Post(CreateProjectCommand command)
     {
-        var id = await _mediator.Send(request);
+        var id = await _mediator.Send(command);
         
         return Ok(id);
     }
@@ -48,9 +48,9 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    public async Task<IActionResult> Put(UpdateProjectCommand request)
+    public async Task<IActionResult> Put(UpdateProjectCommand command)
     {
-        await _mediator.Send(request);
+        await _mediator.Send(command);
         
         return NoContent();
     }

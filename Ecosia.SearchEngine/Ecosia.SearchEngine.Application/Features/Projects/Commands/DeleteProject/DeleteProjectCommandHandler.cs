@@ -15,9 +15,9 @@ public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteProjectCommand command, CancellationToken cancellationToken)
     {
-        var projectToDelete = await _projectRepository.GetByIdAsync(request.Id);
+        var projectToDelete = await _projectRepository.GetByIdAsync(command.Id);
 
         await _projectRepository.DeleteAsync(projectToDelete);
 

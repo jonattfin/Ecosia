@@ -16,10 +16,10 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
     {
-        var projectToUpdate = await _projectRepository.GetByIdAsync(request.Id);
-        _mapper.Map(request, projectToUpdate, typeof(UpdateProjectCommand), typeof(Project));
+        var projectToUpdate = await _projectRepository.GetByIdAsync(command.Id);
+        _mapper.Map(command, projectToUpdate, typeof(UpdateProjectCommand), typeof(Project));
 
         await _projectRepository.UpdateAsync(projectToUpdate);
 

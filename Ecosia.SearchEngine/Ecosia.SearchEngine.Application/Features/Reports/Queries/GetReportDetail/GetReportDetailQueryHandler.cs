@@ -16,9 +16,9 @@ public class GetReportDetailQueryHandler : IRequestHandler<GetReportDetailQuery,
         _mapper = mapper;
     }
 
-    public async Task<ReportDetailVm> Handle(GetReportDetailQuery request, CancellationToken cancellationToken)
+    public async Task<ReportDetailVm> Handle(GetReportDetailQuery query, CancellationToken cancellationToken)
     {
-        var report = await _reportRepository.GetByIdAsync(request.Id);
+        var report = await _reportRepository.GetByIdAsync(query.Id);
         return _mapper.Map<ReportDetailVm>(report);
     }
 }

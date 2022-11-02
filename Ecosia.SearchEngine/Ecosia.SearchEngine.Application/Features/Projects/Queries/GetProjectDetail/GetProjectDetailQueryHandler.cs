@@ -16,9 +16,9 @@ public class GetProjectDetailQueryHandler : IRequestHandler<GetProjectDetailQuer
         _mapper = mapper;
     }
 
-    public async Task<ProjectDetailVm> Handle(GetProjectDetailQuery request, CancellationToken cancellationToken)
+    public async Task<ProjectDetailVm> Handle(GetProjectDetailQuery query, CancellationToken cancellationToken)
     {
-        var project = await _projectRepository.GetByIdAsync(request.Id);
+        var project = await _projectRepository.GetByIdAsync(query.Id);
         return _mapper.Map<ProjectDetailVm>(project);
     }
 }

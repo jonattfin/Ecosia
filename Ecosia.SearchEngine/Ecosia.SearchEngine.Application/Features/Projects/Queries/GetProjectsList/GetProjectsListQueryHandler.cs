@@ -16,7 +16,7 @@ public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery,
         _mapper = mapper;
     }
 
-    public async Task<List<ProjectListVm>> Handle(GetProjectsListQuery request, CancellationToken cancellationToken)
+    public async Task<List<ProjectListVm>> Handle(GetProjectsListQuery query, CancellationToken cancellationToken)
     {
         var projects = (await _projectRepository.ListAllAsync()).OrderBy(p => p.Name);
         return _mapper.Map<List<ProjectListVm>>(projects);
