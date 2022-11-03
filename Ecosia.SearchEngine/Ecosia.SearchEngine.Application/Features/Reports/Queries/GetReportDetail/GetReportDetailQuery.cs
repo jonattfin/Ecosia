@@ -2,7 +2,4 @@ using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
-public class GetReportDetailQuery : IRequest<ReportDetailVm>
-{
-    public Guid Id { get; set; }
-}
+public record GetReportDetailQuery(Guid Id) : IRequest<ReportDetailVm>;

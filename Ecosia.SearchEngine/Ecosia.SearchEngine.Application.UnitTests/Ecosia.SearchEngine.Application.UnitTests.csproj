@@ -25,10 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Reports" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Ecosia.SearchEngine.Application\Ecosia.SearchEngine.Application.csproj" />
     </ItemGroup>
 

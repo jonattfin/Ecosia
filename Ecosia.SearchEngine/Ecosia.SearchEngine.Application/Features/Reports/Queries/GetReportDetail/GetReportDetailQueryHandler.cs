@@ -1,16 +1,15 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
-using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
 public class GetReportDetailQueryHandler : IRequestHandler<GetReportDetailQuery, ReportDetailVm>
 {
-    private readonly IAsyncRepository<Report> _reportRepository;
+    private readonly IReportRepository _reportRepository;
     private readonly IMapper _mapper;
 
-    public GetReportDetailQueryHandler(IAsyncRepository<Report> reportRepository, IMapper mapper)
+    public GetReportDetailQueryHandler(IReportRepository reportRepository, IMapper mapper)
     {
         _reportRepository = reportRepository;
         _mapper = mapper;

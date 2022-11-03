@@ -6,21 +6,21 @@ using Shouldly;
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Projects;
 
-public class ProjectsTests : IClassFixture<DatabaseFixture>
+public class ProjectsTests
 {
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseRepository _repository;
 
-    public ProjectsTests(DatabaseFixture fixture)
+    public ProjectsTests()
     {
-        _fixture = fixture;
+        _repository = new DatabaseRepository();
     }
 
     [Fact]
     public async Task GetProjectsListTest()
     {
         // Arrange
-        var handler = new GetProjectsListQueryHandler(_fixture.ProjectRepositoryMock.Object,
-            _fixture.Mapper);
+        var handler = new GetProjectsListQueryHandler(_repository.ProjectRepositoryMock.Object,
+            _repository.Mapper);
 
         // Act
         var result = await handler.Handle(new GetProjectsListQuery(), CancellationToken.None);
@@ -34,9 +34,9 @@ public class ProjectsTests : IClassFixture<DatabaseFixture>
     public async Task GetProjectsDetailsTest()
     {
         // Arrange
-        var query = new GetProjectDetailQuery() { Id = _fixture.Projects.First().Id };
-        var handler = new GetProjectDetailQueryHandler(_fixture.ProjectRepositoryMock.Object,
-            _fixture.Mapper);
+        var query = new GetProjectDetailQuery(_repository.Projects.First().Id);
+        var handler = new GetProjectDetailQueryHandler(_repository.ProjectRepositoryMock.Object,
+            _repository.Mapper);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -51,7 +51,7 @@ public class ProjectsTests : IClassFixture<DatabaseFixture>
     {
         // Arrange
         var emailServiceMock = new Mock<IEmailService>();
-        var handler = new CreateProjectCommandHandler(_fixture.ProjectRepositoryMock.Object, _fixture.Mapper,
+        var handler = new CreateProjectCommandHandler(_repository.ProjectRepositoryMock.Object, _repository.Mapper,
             emailServiceMock.Object);
 
         // Act
@@ -60,34 +60,34 @@ public class ProjectsTests : IClassFixture<DatabaseFixture>
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _fixture.Projects.Count.ShouldBe(5);
+        _repository.Projects.Count.ShouldBe(5);
     }
 
     [Fact]
     public async Task UpdateProjectTest()
     {
         // Arrange
-        var handler = new UpdateProjectCommandHandler(_fixture.ProjectRepositoryMock.Object, _fixture.Mapper);
+        var handler = new UpdateProjectCommandHandler(_repository.ProjectRepositoryMock.Object, _repository.Mapper);
 
         // Act
-        var command = new UpdateProjectCommand() { Id = _fixture.Projects[0].Id, Name = "Updated Name" };
+        var command = new UpdateProjectCommand() { Id = _repository.Projects[0].Id, Name = "Updated Name" };
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _fixture.Projects[0].Name.ShouldBe("Updated Name");
+        _repository.Projects[0].Name.ShouldBe("Updated Name");
     }
 
-    // [Fact]
-    // public async Task DeleteProjectTest()
-    // {
-    //     // Arrange
-    //     var handler = new DeleteProjectCommandHandler(_fixture.ProjectRepositoryMock.Object, _fixture.Mapper);
-    //
-    //     // Act
-    //     var command = new DeleteProjectCommand() {Id = _fixture.Projects[0].Id};
-    //     await handler.Handle(command, CancellationToken.None);
-    //
-    //     // Assert
-    //     _fixture.Projects.Count.ShouldBe(3);
-    // }
+    [Fact]
+    public async Task DeleteProjectTest()
+    {
+        // Arrange
+        var handler = new DeleteProjectCommandHandler(_repository.ProjectRepositoryMock.Object, _repository.Mapper);
+
+        // Act
+        var command = new DeleteProjectCommand(_repository.Projects[0].Id);
+        await handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        _repository.Projects.Count.ShouldBe(3);
+    }
 }

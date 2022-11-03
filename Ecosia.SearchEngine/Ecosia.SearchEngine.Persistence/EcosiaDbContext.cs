@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using Ecosia.SearchEngine.Domain.Common;
 using Ecosia.SearchEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Random = System.Random;
 
 namespace Ecosia.SearchEngine.Persistence;
 
@@ -64,10 +65,15 @@ public class EcosiaDbContext : DbContext
     
      private static IEnumerable<Report> GenerateReports()
      {
+         var random = new Random();
+         
          return Enumerable.Range(1, 12).Select(element => new Report()
          {
             Id = Guid.NewGuid(),
-            Name = $"Name {element}"
+            Month = element.ToString(),
+            Year = 2022,
+            TotalIncome = random.NextDouble(),
+            TreesFinanced = random.NextDouble()
          }).ToImmutableList();
      }
      

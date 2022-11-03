@@ -5,5 +5,12 @@ namespace Ecosia.SearchEngine.Domain.Entities;
 public class Report : AuditableEntity
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+
+    public string Month { get; set; }
+
+    public int Year { get; set; }
+    
+    public double TotalIncome { get; set; }
+    
+    public double TreesFinanced { get; set; }
 }

@@ -1,10 +1,12 @@
-namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
+using MediatR;
 
-public class ReportDetailVm
+namespace Ecosia.SearchEngine.Application.Features.Reports.Commands;
+
+public class UpdateReportCommand : IRequest
 {
     public Guid Id { get; set; }
     
-    public string Month { get; set; }
+   public string Month { get; set; }
 
     public int Year { get; set; }
     

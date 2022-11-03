@@ -1,16 +1,15 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
-using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 
 public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery, List<ProjectListVm>>
 {
-    private readonly IAsyncRepository<Project> _projectRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly IMapper _mapper;
 
-    public GetProjectsListQueryHandler(IAsyncRepository<Project> projectRepository, IMapper mapper)
+    public GetProjectsListQueryHandler(IProjectRepository projectRepository, IMapper mapper)
     {
         _projectRepository = projectRepository;
         _mapper = mapper;
