@@ -1,10 +1,9 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
-using Ecosia.SearchEngine.Application.Features.Reports.Commands;
 using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
 
-namespace Ecosia.SearchEngine.Application.Features.Reportts.Commands;
+namespace Ecosia.SearchEngine.Application.Features.Reports.Commands;
 
 public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand>
 {

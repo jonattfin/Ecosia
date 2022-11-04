@@ -1,7 +1,6 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Reports.Commands;
 using Ecosia.SearchEngine.Application.Features.Reports.Queries;
-using Ecosia.SearchEngine.Application.Features.Reportts.Commands;
 using Moq;
 using Shouldly;
 
