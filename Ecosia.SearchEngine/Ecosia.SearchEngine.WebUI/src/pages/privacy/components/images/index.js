@@ -1,6 +1,0 @@
-export { default as BackgroundImage } from './background.jpg'
-export { default as PantherImage } from './panther.svg'
-export { default as TreesImage } from './trees.svg'
-export { default as CrowImage } from './crow.svg'
-export { default as FishImage } from './fish.svg'
-export { default as FoxImage } from './fox.svg'
