@@ -1,0 +1,10 @@
+{
+  "testFiles": [
+    "**/*.{feature,features}"
+  ],
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "env": {
+    "baseUrl": "http://localhost:3000/"
+  }
+}

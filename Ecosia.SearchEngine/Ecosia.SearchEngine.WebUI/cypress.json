@@ -1,0 +1,13 @@
+{
+  "testFiles": "**/*.{feature,features}",
+  "reporter": "mochawesome",
+  "reporterOptions": {
+    "overwrite": false,
+    "html": false,
+    "json": true
+  },
+  "video": false,
+  "viewportWidth": 1920,
+  
+  "viewportHeight": 1080
+}
