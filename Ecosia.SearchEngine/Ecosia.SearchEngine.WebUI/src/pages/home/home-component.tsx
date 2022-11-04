@@ -74,7 +74,7 @@ export default function Component({
           &nbsp;
         </BlueGrid>
         <BlueGrid item xl={6}>
-          <Components.FinancialContainer {...{ language }} />
+          {/* <Components.FinancialContainer {...{ language }} /> */}
         </BlueGrid>
         <BlueGrid item xl={3}>
           &nbsp;

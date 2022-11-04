@@ -39,7 +39,7 @@ export default function Component({ projects, t }: ProjectsProps) {
               {shownId === project.id && showMediaLinks(project)}
             </TitleContainerDiv>
             <SubtitleParagraph>{project.name}</SubtitleParagraph>
-            <p>{project.desc}</p>
+            <p>{project.description}</p>
             <Link href={`/project/${project.id}`}>
               <a>
                 <Button size="small" color="secondary">

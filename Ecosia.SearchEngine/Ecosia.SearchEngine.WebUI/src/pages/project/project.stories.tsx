@@ -22,7 +22,7 @@ function getProjectAndTags() {
   const project: Project = {
     id: 1,
     name: "name",
-    desc: loremIpsum({count: 10}),
+    description: loremIpsum({count: 10}),
     imageUrl:
       "https://blog.ecosia.org/content/images/size/w1200/2021/08/Thailand_header.png",
     scope: "scope",

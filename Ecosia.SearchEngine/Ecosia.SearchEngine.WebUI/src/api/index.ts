@@ -6,14 +6,14 @@ export const httpBaseUrl = environment.httpBaseUrl;
 export const wssBaseUrl = environment.wssBaseUrl;
 
 export const fetchProjects = async (): Promise<Project[]> => {
-  const res = await fetch(`${httpBaseUrl}/projects`);
+  const res = await fetch(`${httpBaseUrl}/project`);
   return res.json();
 };
 
 export const fetchProjectById = async (
   projectId: string | string[] | undefined
 ): Promise<Project> => {
-  const res = await fetch(`${httpBaseUrl}/projects/${projectId}`);
+  const res = await fetch(`${httpBaseUrl}/project/${projectId}`);
   return res.json();
 };
 
@@ -23,14 +23,14 @@ export const fetchTags = async () => {
 };
 
 export const fetchReports = async (): Promise<ReportData[]> => {
-  const res = await fetch(`${httpBaseUrl}/reports`);
+  const res = await fetch(`${httpBaseUrl}/report`);
   return res.json();
 };
 
 export const fetchReportById = async (
   reportId: string | string[] | undefined
 ): Promise<ReportData> => {
-  const res = await fetch(`${httpBaseUrl}/reports/${reportId}`);
+  const res = await fetch(`${httpBaseUrl}/report/${reportId}`);
   return res.json();
 };
 
@@ -41,15 +41,15 @@ export const searchByQueryAsync = async (
   return res.json();
 };
 
-function getEnvironment(isDevelopment: boolean = false) {
+function getEnvironment(isDevelopment: boolean = true) {
   return isDevelopment ? getDevEnvironment() : getProdEnvironment();
 
   function getDevEnvironment() {
-    const baseUrl = "localhost:8080";
+    const baseUrl = "localhost:7131";
 
     return {
       baseUrl,
-      httpBaseUrl: `http://${baseUrl}`,
+      httpBaseUrl: `https://${baseUrl}`,
       wssBaseUrl: `ws://${baseUrl}`,
     };
   }

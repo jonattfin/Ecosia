@@ -65,7 +65,7 @@ export default function Component({ project }: ProjectProps) {
                 <h1>{project.title}</h1>
               </Grid>
               <Grid item xs={12} xl={6}>
-                <p>{project.desc}</p>
+                <p>{project.description}</p>
               </Grid>
               <Grid item xs={12} xl={6}>
                 <Image src={Images.CountryMapImage} {...imageProps}></Image>

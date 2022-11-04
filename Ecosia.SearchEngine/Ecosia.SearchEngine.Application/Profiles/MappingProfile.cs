@@ -3,6 +3,7 @@ using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
 using Ecosia.SearchEngine.Application.Features.Reports.Commands;
 using Ecosia.SearchEngine.Application.Features.Reports.Queries;
+using Ecosia.SearchEngine.Application.Features.Search.Queries;
 using Ecosia.SearchEngine.Domain.Entities;
 
 namespace Ecosia.SearchEngine.Application.Profiles;
@@ -22,5 +23,7 @@ public class MappingProfile : Profile
         CreateMap<CreateReportCommand, Report>();
         CreateMap<Report, CreateReportCommand>().ReverseMap();
         CreateMap<Report, UpdateReportCommand>().ReverseMap();
+
+        CreateMap<Search, SearchesListVm>().ReverseMap();
     }
 }

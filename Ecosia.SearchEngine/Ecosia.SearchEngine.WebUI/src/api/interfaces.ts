@@ -20,7 +20,7 @@ export interface Project {
   id: number;
   name: string;
   scope: string;
-  desc: string;
+  description: string;
   title: string;
   treesPlanted: string;
   hectaresRestored: string;
