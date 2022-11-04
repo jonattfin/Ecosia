@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using AutoMapper;
+using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using Ecosia.SearchEngine.Application.Profiles;
 using Ecosia.SearchEngine.Domain.Entities;
@@ -7,9 +8,9 @@ using Moq;
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features;
 
-public class DatabaseRepository
+public class RepositoryFacade
 {
-    public DatabaseRepository()
+    public RepositoryFacade()
     {
         var configurationProvider = new MapperConfiguration(cfg
             =>
@@ -24,6 +25,9 @@ public class DatabaseRepository
 
         Reports = CreateReports();
         ReportRepositoryMock = CreateReportRepositoryMock(Reports);
+
+        Searches = CreateSearches();
+        SearchRepositoryMock = CreateSearchRepositoryMock(Searches);
     }
 
     public IMapper Mapper { get; }
@@ -35,6 +39,10 @@ public class DatabaseRepository
     public List<Report> Reports { get; }
 
     public Mock<IReportRepository> ReportRepositoryMock { get; }
+    
+    public List<Domain.Entities.Search> Searches { get; }
+    
+    public Mock<ISearchRepository> SearchRepositoryMock { get; }
 
     private static List<Project> CreateProjects()
     {
@@ -42,16 +50,6 @@ public class DatabaseRepository
         {
             Id = Guid.NewGuid(),
             Name = $"Name {element}",
-        }).ToList();
-    }
-
-    private static List<Report> CreateReports()
-    {
-        return Enumerable.Range(1, 4).Select(element => new Report()
-        {
-            Id = Guid.NewGuid(),
-            Month = element.ToString(),
-            Year = 2022,
         }).ToList();
     }
 
@@ -85,6 +83,16 @@ public class DatabaseRepository
         return mockProjectRepository;
     }
 
+    private static List<Report> CreateReports()
+    {
+        return Enumerable.Range(1, 4).Select(element => new Report()
+        {
+            Id = Guid.NewGuid(),
+            Month = element.ToString(),
+            Year = 2022,
+        }).ToList();
+    }
+
     private static Mock<IReportRepository> CreateReportRepositoryMock(IList<Report> reports)
     {
         var mockRepository = new Mock<IReportRepository>();
@@ -111,6 +119,26 @@ public class DatabaseRepository
 
         mockRepository.Setup(repo => repo.DeleteAsync(It.IsAny<Report>()))
             .Callback((Report report) => { reports.Remove(report); });
+
+        return mockRepository;
+    }
+
+    private static List<Domain.Entities.Search> CreateSearches()
+    {
+        return Enumerable.Range(1, 4).Select(element => new Domain.Entities.Search()
+        {
+            Title = $"title {element}",
+            Description = $"Description {element}",
+            Url = $"Url {element}"
+        }).ToList();
+    }
+
+    private static Mock<ISearchRepository> CreateSearchRepositoryMock(IList<Domain.Entities.Search> searches)
+    {
+        var mockRepository = new Mock<ISearchRepository>();
+
+        mockRepository.Setup(repo =>
+            repo.ListAllAsync(It.IsAny<string>())).ReturnsAsync(searches);
 
         return mockRepository;
     }

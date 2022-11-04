@@ -9,19 +9,19 @@ namespace Ecosia.SearchEngine.Application.UnitTests.Features.Reports;
 
 public class ReportsTests
 {
-    private readonly DatabaseRepository _repository;
+    private readonly RepositoryFacade _repositoryFacade;
 
     public ReportsTests()
     {
-        _repository = new DatabaseRepository();
+        _repositoryFacade = new RepositoryFacade();
     }
 
     [Fact]
     public async Task GetReportsListTest()
     {
         // Arrange
-        var handler = new GetReportsListQueryHandler(_repository.ReportRepositoryMock.Object,
-            _repository.Mapper);
+        var handler = new GetReportsListQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
+            _repositoryFacade.Mapper);
 
         // Act
         var result = await handler.Handle(new GetReportsListQuery(), CancellationToken.None);
@@ -35,9 +35,9 @@ public class ReportsTests
     public async Task GetReportsDetailsTest()
     {
         // Arrange
-        var query = new GetReportDetailQuery(_repository.Reports.First().Id);
-        var handler = new GetReportDetailQueryHandler(_repository.ReportRepositoryMock.Object,
-            _repository.Mapper);
+        var query = new GetReportDetailQuery(_repositoryFacade.Reports.First().Id);
+        var handler = new GetReportDetailQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
+            _repositoryFacade.Mapper);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -52,7 +52,7 @@ public class ReportsTests
     {
         // Arrange
         var emailServiceMock = new Mock<IEmailService>();
-        var handler = new CreateReportCommandHandler(_repository.ReportRepositoryMock.Object, _repository.Mapper,
+        var handler = new CreateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper,
             emailServiceMock.Object);
 
         // Act
@@ -61,34 +61,34 @@ public class ReportsTests
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _repository.Reports.Count.ShouldBe(5);
+        _repositoryFacade.Reports.Count.ShouldBe(5);
     }
 
     [Fact]
     public async Task UpdateReportTest()
     {
         // Arrange
-        var handler = new UpdateReportCommandHandler(_repository.ReportRepositoryMock.Object, _repository.Mapper);
+        var handler = new UpdateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateReportCommand() { Id = _repository.Reports[0].Id, TotalIncome = 1000};
+        var command = new UpdateReportCommand() { Id = _repositoryFacade.Reports[0].Id, TotalIncome = 1000};
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repository.Reports[0].TotalIncome.ShouldBe(1000);
+        _repositoryFacade.Reports[0].TotalIncome.ShouldBe(1000);
     }
 
     [Fact]
     public async Task DeleteReportTest()
     {
         // Arrange
-        var handler = new DeleteReportCommandHandler(_repository.ReportRepositoryMock.Object, _repository.Mapper);
+        var handler = new DeleteReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new DeleteReportCommand(_repository.Reports[0].Id);
+        var command = new DeleteReportCommand(_repositoryFacade.Reports[0].Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repository.Reports.Count.ShouldBe(3);
+        _repositoryFacade.Reports.Count.ShouldBe(3);
     }
 }
