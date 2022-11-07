@@ -1,7 +1,6 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
-using Ecosia.SearchEngine.Application.Seed;
 using Moq;
 using Shouldly;
 
@@ -56,7 +55,7 @@ public class ProjectsTests
             emailServiceMock.Object);
 
         // Act
-        var command = new CreateProjectCommand() { Name = "new project" };
+        var command = new CreateProjectCommand { Name = "new project" };
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
@@ -71,7 +70,7 @@ public class ProjectsTests
         var handler = new UpdateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateProjectCommand() { Id = _repositoryFacade.Inventory.Projects[0].Id, Name = "Updated Name" };
+        var command = new UpdateProjectCommand { Id = _repositoryFacade.Inventory.Projects[0].Id, Name = "Updated Name" };
         await handler.Handle(command, CancellationToken.None);
 
         // Assert

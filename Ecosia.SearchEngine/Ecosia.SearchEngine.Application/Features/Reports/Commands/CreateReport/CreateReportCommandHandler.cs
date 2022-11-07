@@ -34,7 +34,7 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, G
 
         try
         {
-            var email = new Email() { To = "to", Body = "body", Subject = "subject" };
+            var email = new Email { To = "to", Body = "body", Subject = "subject" };
             await _emailService.SendEmail(email);
         }
         catch (Exception e)

@@ -58,7 +58,7 @@ public class ReportsTests
             emailServiceMock.Object);
 
         // Act
-        var command = new CreateReportCommand() { TotalIncome = 100, TreesFinanced = 10};
+        var command = new CreateReportCommand { TotalIncome = 100, TreesFinanced = 10};
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
@@ -73,7 +73,7 @@ public class ReportsTests
         var handler = new UpdateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateReportCommand() { Id = _repositoryFacade.Inventory.Reports[0].Id, TotalIncome = 1000};
+        var command = new UpdateReportCommand { Id = _repositoryFacade.Inventory.Reports[0].Id, TotalIncome = 1000};
         await handler.Handle(command, CancellationToken.None);
 
         // Assert

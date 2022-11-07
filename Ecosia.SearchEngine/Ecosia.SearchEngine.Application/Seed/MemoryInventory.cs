@@ -40,7 +40,7 @@ public class MemoryInventory : IInventory
 
     private static IList<Project> GenerateProjects()
     {
-        return new List<Project>()
+        return new List<Project>
         {
             new()
             {
@@ -91,7 +91,7 @@ public class MemoryInventory : IInventory
 
     private static IList<Report> GenerateReports()
     {
-        return new List<Report>()
+        return new List<Report>
         {
             new()
             {
@@ -111,7 +111,7 @@ public class MemoryInventory : IInventory
 
     private static List<Tag> GenerateTags(IList<Project> projects)
     {
-        return new List<Tag>()
+        return new List<Tag>
         {
             new()
             {
@@ -132,7 +132,7 @@ public class MemoryInventory : IInventory
 
     private static IList<Country> GenerateCountries()
     {
-        return new List<Country>()
+        return new List<Country>
         {
             new()
             {
@@ -159,7 +159,7 @@ public class MemoryInventory : IInventory
 
     private static IList<Category> GenerateCategories()
     {
-        return new List<Category>()
+        return new List<Category>
         {
             new()
             {
@@ -192,7 +192,7 @@ public class MemoryInventory : IInventory
     private static IList<CategoryInvestment> GenerateCategoriesInvestments(IEnumerable<Report> reports,
         IEnumerable<Category> categories)
     {
-        return new List<CategoryInvestment>()
+        return new List<CategoryInvestment>
         {
             new()
             {
@@ -214,7 +214,7 @@ public class MemoryInventory : IInventory
     private static IList<CountryInvestment> GenerateCountriesInvestments(IEnumerable<Report> reports,
         IEnumerable<Country> countries)
     {
-        return new List<CountryInvestment>()
+        return new List<CountryInvestment>
         {
             new()
             {

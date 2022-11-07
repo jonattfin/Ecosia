@@ -13,7 +13,7 @@ public class EcosiaDbContext : DbContext
 
     public EcosiaDbContext(DbContextOptions<EcosiaDbContext> options) : base(options)
     {
-        this.Database.EnsureCreated();
+        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

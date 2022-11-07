@@ -19,7 +19,7 @@ public class SearchController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<SearchesListVm>>> Get(string text)
     {
-        var query = new GetSearchesListQuery() { Text = text };
+        var query = new GetSearchesListQuery { Text = text };
         var searches = await _mediator.Send(query);
 
         return Ok(searches);
