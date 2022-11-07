@@ -8,7 +8,7 @@ public static class ModelBuilderExtensions
 {
     public static void Seed(this ModelBuilder modelBuilder)
     {
-        var inventory = new InventoryFactory().CreateInventory();
+        var inventory = InventoryFactory.CreateInventory();
         
         modelBuilder.Entity<Project>().HasData(inventory.Projects);
         modelBuilder.Entity<Tag>().HasData(inventory.Tags);
