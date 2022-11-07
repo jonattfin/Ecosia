@@ -1,11 +1,12 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
+using Ecosia.SearchEngine.Application.Features.Projects.Queries;
 using MediatR;
 using TaskExtensions = Ecosia.SearchEngine.Application.Extensions.TaskExtensions;
 
 namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
-public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, List<ReportListVm>>
+public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, PagedReportsListVm>
 {
     private readonly IMapper _mapper;
 
@@ -24,33 +25,40 @@ public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, L
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<List<ReportListVm>> Handle(GetReportsListQuery query, CancellationToken cancellationToken)
+    public async Task<PagedReportsListVm> Handle(GetReportsListQuery query, CancellationToken cancellationToken)
     {
-        var (countries, categories, reports) =
-            await TaskExtensions.ExecuteThreeInParallel(
+        var (countries, categories, reports, count) =
+            await TaskExtensions.ExecuteInParallel(
                 _countryRepository.ListAllAsync(),
                 _categoryRepository.ListAllAsync(),
-                _reportRepository.ListAllAsync());
+                _reportRepository.ListAllAsync(query.Page, query.Size),
+                _reportRepository.CountAsync());
 
-        return reports.Select(report =>
+        return new PagedReportsListVm()
         {
-            var reportListVm = _mapper.Map<ReportListVm>(report);
+            Page = query.Page,
+            Size = query.Size,
+            Count = count,
+            Reports = reports.Select(report =>
+            {
+                var reportListVm = _mapper.Map<ReportListVm>(report);
 
-            reportListVm.InvestmentsInCategories = report.InvestmentsInCategories.Select(investment =>
-                new CategoryInvestmentVm
-                {
-                    Amount = investment.Amount,
-                    CategoryName = categories.First(category => category.Id == investment.CategoryId).Name
-                }).ToList();
+                reportListVm.InvestmentsInCategories = report.InvestmentsInCategories.Select(investment =>
+                    new CategoryInvestmentVm
+                    {
+                        Amount = investment.Amount,
+                        CategoryName = categories.First(category => category.Id == investment.CategoryId).Name
+                    }).ToList();
 
-            reportListVm.InvestmentsInCountries = report.InvestmentsInCountries.Select(investment =>
-                new CountryInvestmentVm
-                {
-                    Amount = investment.Amount,
-                    CountryName = countries.First((country => country.Id == investment.CountryId)).Name
-                }).ToList();
+                reportListVm.InvestmentsInCountries = report.InvestmentsInCountries.Select(investment =>
+                    new CountryInvestmentVm
+                    {
+                        Amount = investment.Amount,
+                        CountryName = countries.First((country => country.Id == investment.CountryId)).Name
+                    }).ToList();
 
-            return reportListVm;
-        }).ToList();
+                return reportListVm;
+            }).ToList()
+        };
     }
 }

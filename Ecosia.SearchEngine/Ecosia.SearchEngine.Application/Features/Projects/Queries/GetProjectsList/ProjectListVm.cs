@@ -1,5 +1,13 @@
 namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 
+public class PagedProjectsListVm
+{
+    public int Page { get; set; }
+    public int Size { get; set; }
+    public int Count { get; set; }
+    public List<ProjectListVm> Projects { get; set; }
+}
+
 public class ProjectListVm
 {
     public Guid Id { get; set; }

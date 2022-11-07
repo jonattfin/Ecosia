@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 
-public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery, List<ProjectListVm>>
+public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery, PagedProjectsListVm>
 {
     private readonly IProjectRepository _projectRepository;
     private readonly IMapper _mapper;
@@ -15,9 +15,17 @@ public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery,
         _mapper = mapper;
     }
 
-    public async Task<List<ProjectListVm>> Handle(GetProjectsListQuery query, CancellationToken cancellationToken)
+    public async Task<PagedProjectsListVm> Handle(GetProjectsListQuery query, CancellationToken cancellationToken)
     {
-        var projects = (await _projectRepository.ListAllAsync()).OrderBy(p => p.Name);
-        return _mapper.Map<List<ProjectListVm>>(projects);
+        var projects = (await _projectRepository.ListAllAsync(query.Page, query.Size));
+        var count = (await _projectRepository.CountAsync());
+
+        return new PagedProjectsListVm()
+        {
+            Projects = _mapper.Map<List<ProjectListVm>>(projects),
+            Page = query.Page,
+            Size = query.Size,
+            Count = count
+        };
     }
 }

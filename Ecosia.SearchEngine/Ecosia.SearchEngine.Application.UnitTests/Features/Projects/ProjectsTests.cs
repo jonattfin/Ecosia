@@ -23,7 +23,7 @@ public class ProjectsTests
             _repositoryFacade.Mapper);
 
         // Act
-        var result = await handler.Handle(new GetProjectsListQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetProjectsListQuery(1, 10), CancellationToken.None);
 
         // Assert
         result.ShouldBeOfType<List<ProjectListVm>>();

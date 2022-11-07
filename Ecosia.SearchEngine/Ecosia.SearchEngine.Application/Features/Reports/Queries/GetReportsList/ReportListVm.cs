@@ -1,5 +1,13 @@
 namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
+public class PagedReportsListVm
+{
+    public int Page { get; set; }
+    public int Size { get; set; }
+    public int Count { get; set; }
+    public List<ReportListVm> Reports { get; set; }
+}
+
 public class ReportListVm
 {
     public Guid Id { get; set; }

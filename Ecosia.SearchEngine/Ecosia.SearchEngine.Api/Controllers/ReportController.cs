@@ -18,9 +18,9 @@ public class ReportController :  ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ReportListVm>>> Get()
+    public async Task<ActionResult<IEnumerable<ReportListVm>>> Get(int page = 1, int size = 5)
     {
-        var query = new GetReportsListQuery();
+        var query = new GetReportsListQuery(page, size);
         var reports = await _mediator.Send(query);
         
         return Ok(reports);

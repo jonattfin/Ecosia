@@ -26,7 +26,7 @@ public class ReportsTests
             );
 
         // Act
-        var result = await handler.Handle(new GetReportsListQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetReportsListQuery(1, 10), CancellationToken.None);
 
         // Assert
         result.ShouldBeOfType<List<ReportListVm>>();

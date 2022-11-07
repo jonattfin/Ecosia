@@ -91,17 +91,14 @@ public class MemoryInventory : IInventory
 
     private static IList<Report> GenerateReports()
     {
-        return new List<Report>
+        return Enumerable.Range(1, 20).Select(element => new Report()
         {
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Month = "May",
-                Year = 2022,
-                TotalIncome = 100000,
-                TreesFinanced = 50000,
-            }
-        };
+            Id = Guid.NewGuid(),
+            Month = "May",
+            Year = 2022,
+            TotalIncome = 100000,
+            TreesFinanced = 50000,
+        }).ToList();
     }
 
     private static IList<Search> GenerateSearches()

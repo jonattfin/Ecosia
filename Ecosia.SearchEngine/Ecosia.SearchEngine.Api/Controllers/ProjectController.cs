@@ -18,9 +18,9 @@ public class ProjectController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ProjectListVm>>> Get()
+    public async Task<ActionResult<IEnumerable<ProjectListVm>>> Get(int page = 1, int size = 5)
     {
-        var query = new GetProjectsListQuery();
+        var query = new GetProjectsListQuery(page, size);
         var projects = await _mediator.Send(query);
         
         return Ok(projects);

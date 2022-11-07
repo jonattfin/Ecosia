@@ -10,11 +10,13 @@ public class ReportRepository : BaseRepository<Report>, IReportRepository
     {
     }
 
-    public override async Task<IReadOnlyList<Report>> ListAllAsync()
+    public override async Task<IReadOnlyList<Report>> ListAllAsync(int page, int size)
     {
         return await _context.Reports
+            .Skip((page - 1) * size).Take(size)
             .Include(report => report.InvestmentsInCategories)
             .Include(report => report.InvestmentsInCountries)
+            .AsNoTracking()
             .ToListAsync();
     }
 }
