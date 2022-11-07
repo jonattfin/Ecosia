@@ -37,11 +37,11 @@ public class RepositoryFacade
     public Mock<IProjectRepository> ProjectRepositoryMock { get; }
 
     public Mock<IReportRepository> ReportRepositoryMock { get; }
-    
+
     public Mock<ISearchRepository> SearchRepositoryMock { get; }
-    
+
     public Mock<ICountryRepository> CountryRepositoryMock { get; }
-    
+
     public Mock<ICategoryRepository> CategoryRepositoryMock { get; }
 
     private static Mock<IProjectRepository> CreateProjectRepositoryMock(ICollection<Project> projects)
@@ -49,7 +49,9 @@ public class RepositoryFacade
         var mockProjectRepository = new Mock<IProjectRepository>();
 
         mockProjectRepository.Setup(repo =>
-            repo.ListAllAsync()).ReturnsAsync(projects.ToImmutableList());
+            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(projects.ToImmutableList());
+
+        mockProjectRepository.Setup(repo => repo.CountAsync()).ReturnsAsync(projects.Count);
 
         mockProjectRepository.Setup(repo =>
             repo.GetByIdAsync(projects.First().Id)).ReturnsAsync(projects.First);
@@ -79,7 +81,9 @@ public class RepositoryFacade
         var mockRepository = new Mock<IReportRepository>();
 
         mockRepository.Setup(repo =>
-            repo.ListAllAsync()).ReturnsAsync(reports.ToImmutableList());
+            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(reports.ToImmutableList());
+
+        mockRepository.Setup(repo => repo.CountAsync()).ReturnsAsync(reports.Count);
 
         mockRepository.Setup(repo =>
             repo.GetByIdAsync(reports.First().Id)).ReturnsAsync(reports.First);
@@ -122,7 +126,7 @@ public class RepositoryFacade
 
         return mockRepository;
     }
-    
+
     private static Mock<ICountryRepository> CreateCountryRepositoryMock(IList<Country> countries)
     {
         var mockRepository = new Mock<ICountryRepository>();

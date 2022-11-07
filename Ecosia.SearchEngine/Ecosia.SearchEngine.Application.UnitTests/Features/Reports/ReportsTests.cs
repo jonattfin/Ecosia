@@ -29,8 +29,8 @@ public class ReportsTests
         var result = await handler.Handle(new GetReportsListQuery(1, 10), CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<List<ReportListVm>>();
-        result.Count.ShouldBe(1);
+        result.ShouldBeOfType<PagedReportsListVm>();
+        result.Count.ShouldBe(20);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class ReportsTests
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Inventory.Reports.Count.ShouldBe(2);
+        _repositoryFacade.Inventory.Reports.Count.ShouldBe(21);
     }
 
     [Fact]
@@ -91,6 +91,6 @@ public class ReportsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-       _repositoryFacade.Inventory.Reports.Count.ShouldBe(0);
+       _repositoryFacade.Inventory.Reports.Count.ShouldBe(19);
     }
 }

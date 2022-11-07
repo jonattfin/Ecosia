@@ -26,7 +26,7 @@ public class ProjectsTests
         var result = await handler.Handle(new GetProjectsListQuery(1, 10), CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<List<ProjectListVm>>();
+        result.ShouldBeOfType<PagedProjectsListVm>();
         result.Count.ShouldBe(4);
     }
 
