@@ -9,4 +9,6 @@ public class Tag : AuditableEntity
     public string Title { get; set; }
 
     public string Subtitle { get; set; }
+
+    public Guid ProjectId { get; set; }
 }

@@ -5,19 +5,19 @@ namespace Ecosia.SearchEngine.Persistence.Repositories;
 
 public class BaseRepository<T> : IAsyncRepository<T> where T : class
 {
-    private readonly EcosiaDbContext _context;
+    protected readonly EcosiaDbContext _context;
 
     public BaseRepository(EcosiaDbContext context)
     {
         _context = context;
     }
 
-    public async Task<T> GetByIdAsync(Guid id)
+    public virtual async Task<T> GetByIdAsync(Guid id)
     {
         return await _context.Set<T>().FindAsync(id);
     }
 
-    public async Task<IReadOnlyList<T>> ListAllAsync()
+    public virtual async Task<IReadOnlyList<T>> ListAllAsync()
     {
         return await _context.Set<T>().ToListAsync();
     }

@@ -15,6 +15,8 @@ public static class PersistenceServiceRegistration
 
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IReportRepository, ReportRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
 
         return services;
     }

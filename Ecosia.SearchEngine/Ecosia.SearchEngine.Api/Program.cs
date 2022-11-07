@@ -1,3 +1,4 @@
+using Ecosia.SearchEngine.Api.Hubs;
 using Ecosia.SearchEngine.Application;
 using Ecosia.SearchEngine.Infrastructure;
 using Ecosia.SearchEngine.Persistence;
@@ -11,6 +12,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policyBuilder =>
+        policyBuilder.WithOrigins("http://localhost:3000"));
+});
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
@@ -31,8 +39,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<CounterHub>("counter");
 
 app.Run();

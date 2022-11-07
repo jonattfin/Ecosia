@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecosia.SearchEngine.Applica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecosia.SearchEngine.Api.IntegrationTests", "Ecosia.SearchEngine.Api.IntegrationTests\Ecosia.SearchEngine.Api.IntegrationTests.csproj", "{50485CB0-E382-4E37-9E35-50969E4A03A0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ecosia.SearchEngine.WebUI", "Ecosia.SearchEngine.WebUI", "{0DB90312-EC8D-45C1-B120-AE47071F03D6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,7 +43,6 @@ Global
 		{264DCF51-1E59-425D-9BD7-72DDD096A3B5} = {6358A150-E1B9-4B42-97B7-51C56DB3AEC8}
 		{4BACD9BB-91ED-4042-8181-F50397CBAD52} = {A9983435-8AAF-4D77-9488-D804DDCAA2AB}
 		{50485CB0-E382-4E37-9E35-50969E4A03A0} = {A9983435-8AAF-4D77-9488-D804DDCAA2AB}
-		{0DB90312-EC8D-45C1-B120-AE47071F03D6} = {03802BE6-F135-4C9E-B754-EF919AEDC77A}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4A317599-9E21-4388-9EA8-D0E9F016A0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

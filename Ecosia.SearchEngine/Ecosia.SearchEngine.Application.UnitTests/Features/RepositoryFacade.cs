@@ -3,6 +3,7 @@ using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using Ecosia.SearchEngine.Application.Profiles;
+using Ecosia.SearchEngine.Application.Seed;
 using Ecosia.SearchEngine.Domain.Entities;
 using Moq;
 
@@ -20,40 +21,30 @@ public class RepositoryFacade
 
         Mapper = configurationProvider.CreateMapper();
 
-        Projects = CreateProjects();
-        ProjectRepositoryMock = CreateProjectRepositoryMock(Projects);
+        Inventory = new InventoryFactory().CreateInventory();
 
-        Reports = CreateReports();
-        ReportRepositoryMock = CreateReportRepositoryMock(Reports);
-
-        Searches = CreateSearches();
-        SearchRepositoryMock = CreateSearchRepositoryMock(Searches);
+        ProjectRepositoryMock = CreateProjectRepositoryMock(Inventory.Projects);
+        ReportRepositoryMock = CreateReportRepositoryMock(Inventory.Reports);
+        SearchRepositoryMock = CreateSearchRepositoryMock(Inventory.Searches);
+        CountryRepositoryMock = CreateCountryRepositoryMock(Inventory.Countries);
+        CategoryRepositoryMock = CreateCategoryRepositoryMock(Inventory.Categories);
     }
 
     public IMapper Mapper { get; }
 
-    public List<Project> Projects { get; }
+    public IInventory Inventory { get; }
 
     public Mock<IProjectRepository> ProjectRepositoryMock { get; }
 
-    public List<Report> Reports { get; }
-
     public Mock<IReportRepository> ReportRepositoryMock { get; }
     
-    public List<Domain.Entities.Search> Searches { get; }
-    
     public Mock<ISearchRepository> SearchRepositoryMock { get; }
+    
+    public Mock<ICountryRepository> CountryRepositoryMock { get; }
+    
+    public Mock<ICategoryRepository> CategoryRepositoryMock { get; }
 
-    private static List<Project> CreateProjects()
-    {
-        return Enumerable.Range(1, 4).Select(element => new Project()
-        {
-            Id = Guid.NewGuid(),
-            Name = $"Name {element}",
-        }).ToList();
-    }
-
-    private static Mock<IProjectRepository> CreateProjectRepositoryMock(IList<Project> projects)
+    private static Mock<IProjectRepository> CreateProjectRepositoryMock(ICollection<Project> projects)
     {
         var mockProjectRepository = new Mock<IProjectRepository>();
 
@@ -61,7 +52,7 @@ public class RepositoryFacade
             repo.ListAllAsync()).ReturnsAsync(projects.ToImmutableList());
 
         mockProjectRepository.Setup(repo =>
-            repo.GetByIdAsync(projects[0].Id)).ReturnsAsync(projects[0]);
+            repo.GetByIdAsync(projects.First().Id)).ReturnsAsync(projects.First);
 
         mockProjectRepository.Setup(repo => repo.AddAsync(It.IsAny<Project>()))
             .ReturnsAsync((Project project) =>
@@ -83,17 +74,7 @@ public class RepositoryFacade
         return mockProjectRepository;
     }
 
-    private static List<Report> CreateReports()
-    {
-        return Enumerable.Range(1, 4).Select(element => new Report()
-        {
-            Id = Guid.NewGuid(),
-            Month = element.ToString(),
-            Year = 2022,
-        }).ToList();
-    }
-
-    private static Mock<IReportRepository> CreateReportRepositoryMock(IList<Report> reports)
+    private static Mock<IReportRepository> CreateReportRepositoryMock(ICollection<Report> reports)
     {
         var mockRepository = new Mock<IReportRepository>();
 
@@ -101,7 +82,7 @@ public class RepositoryFacade
             repo.ListAllAsync()).ReturnsAsync(reports.ToImmutableList());
 
         mockRepository.Setup(repo =>
-            repo.GetByIdAsync(reports[0].Id)).ReturnsAsync(reports[0]);
+            repo.GetByIdAsync(reports.First().Id)).ReturnsAsync(reports.First);
 
         mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Report>()))
             .ReturnsAsync((Report report) =>
@@ -123,22 +104,30 @@ public class RepositoryFacade
         return mockRepository;
     }
 
-    private static List<Domain.Entities.Search> CreateSearches()
-    {
-        return Enumerable.Range(1, 4).Select(element => new Domain.Entities.Search()
-        {
-            Title = $"title {element}",
-            Description = $"Description {element}",
-            Url = $"Url {element}"
-        }).ToList();
-    }
-
     private static Mock<ISearchRepository> CreateSearchRepositoryMock(IList<Domain.Entities.Search> searches)
     {
         var mockRepository = new Mock<ISearchRepository>();
 
         mockRepository.Setup(repo =>
             repo.ListAllAsync(It.IsAny<string>())).ReturnsAsync(searches);
+
+        return mockRepository;
+    }
+
+    private static Mock<ICategoryRepository> CreateCategoryRepositoryMock(IList<Category> categories)
+    {
+        var mockRepository = new Mock<ICategoryRepository>();
+
+        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(categories.ToList());
+
+        return mockRepository;
+    }
+    
+    private static Mock<ICountryRepository> CreateCountryRepositoryMock(IList<Country> countries)
+    {
+        var mockRepository = new Mock<ICountryRepository>();
+
+        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(countries.ToList());
 
         return mockRepository;
     }

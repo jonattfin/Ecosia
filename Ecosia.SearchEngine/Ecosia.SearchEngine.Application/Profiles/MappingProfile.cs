@@ -13,12 +13,15 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Project, ProjectListVm>().ReverseMap();
+        CreateMap<Tag, TagListVm>().ReverseMap();
         CreateMap<Project, ProjectDetailVm>().ReverseMap();
         CreateMap<CreateProjectCommand, Project>();
         CreateMap<Project, CreateProjectCommand>().ReverseMap();
         CreateMap<Project, UpdateProjectCommand>().ReverseMap();
         
         CreateMap<Report, ReportListVm>().ReverseMap();
+        CreateMap<CategoryInvestment, CategoryInvestmentVm>().ReverseMap();
+        CreateMap<CountryInvestment, CountryInvestmentVm>().ReverseMap();
         CreateMap<Report, ReportDetailVm>().ReverseMap();
         CreateMap<CreateReportCommand, Report>();
         CreateMap<Report, CreateReportCommand>().ReverseMap();

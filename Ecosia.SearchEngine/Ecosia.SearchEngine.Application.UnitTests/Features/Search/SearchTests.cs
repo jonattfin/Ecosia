@@ -23,6 +23,6 @@ public class SearchTests
 
         // Assert
         result.ShouldBeOfType<List<SearchesListVm>>();
-        result.Count.ShouldBe(4);
+        result.Count.ShouldBe(0);
     }
 }

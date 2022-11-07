@@ -13,4 +13,8 @@ public class Report : AuditableEntity
     public double TotalIncome { get; set; }
     
     public double TreesFinanced { get; set; }
+
+    public List<CategoryInvestment> InvestmentsInCategories { get; set; } = new();
+
+    public List<CountryInvestment> InvestmentsInCountries { get; set; } = new();
 }

@@ -1,6 +1,7 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
+using Ecosia.SearchEngine.Application.Seed;
 using Moq;
 using Shouldly;
 
@@ -34,7 +35,7 @@ public class ProjectsTests
     public async Task GetProjectsDetailsTest()
     {
         // Arrange
-        var query = new GetProjectDetailQuery(_repositoryFacade.Projects.First().Id);
+        var query = new GetProjectDetailQuery(_repositoryFacade.Inventory.Projects.First().Id);
         var handler = new GetProjectDetailQueryHandler(_repositoryFacade.ProjectRepositoryMock.Object,
             _repositoryFacade.Mapper);
 
@@ -60,7 +61,7 @@ public class ProjectsTests
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Projects.Count.ShouldBe(5);
+        _repositoryFacade.Inventory.Projects.Count.ShouldBe(5);
     }
 
     [Fact]
@@ -70,11 +71,11 @@ public class ProjectsTests
         var handler = new UpdateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateProjectCommand() { Id = _repositoryFacade.Projects[0].Id, Name = "Updated Name" };
+        var command = new UpdateProjectCommand() { Id = _repositoryFacade.Inventory.Projects[0].Id, Name = "Updated Name" };
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Projects[0].Name.ShouldBe("Updated Name");
+        _repositoryFacade.Inventory.Projects[0].Name.ShouldBe("Updated Name");
     }
 
     [Fact]
@@ -84,10 +85,10 @@ public class ProjectsTests
         var handler = new DeleteProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new DeleteProjectCommand(_repositoryFacade.Projects[0].Id);
+        var command = new DeleteProjectCommand(_repositoryFacade.Inventory.Projects[0].Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Projects.Count.ShouldBe(3);
+        _repositoryFacade.Inventory.Projects.Count.ShouldBe(3);
     }
 }

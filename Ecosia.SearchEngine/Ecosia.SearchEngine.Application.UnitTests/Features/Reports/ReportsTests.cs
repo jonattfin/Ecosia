@@ -19,22 +19,25 @@ public class ReportsTests
     public async Task GetReportsListTest()
     {
         // Arrange
-        var handler = new GetReportsListQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
-            _repositoryFacade.Mapper);
+        var handler = new GetReportsListQueryHandler(_repositoryFacade.Mapper, 
+            _repositoryFacade.ReportRepositoryMock.Object,
+            _repositoryFacade.CountryRepositoryMock.Object,
+            _repositoryFacade.CategoryRepositoryMock.Object
+            );
 
         // Act
         var result = await handler.Handle(new GetReportsListQuery(), CancellationToken.None);
 
         // Assert
         result.ShouldBeOfType<List<ReportListVm>>();
-        result.Count.ShouldBe(4);
+        result.Count.ShouldBe(1);
     }
 
     [Fact]
     public async Task GetReportsDetailsTest()
     {
         // Arrange
-        var query = new GetReportDetailQuery(_repositoryFacade.Reports.First().Id);
+        var query = new GetReportDetailQuery(_repositoryFacade.Inventory.Reports.First().Id);
         var handler = new GetReportDetailQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
             _repositoryFacade.Mapper);
 
@@ -60,7 +63,7 @@ public class ReportsTests
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Reports.Count.ShouldBe(5);
+        _repositoryFacade.Inventory.Reports.Count.ShouldBe(2);
     }
 
     [Fact]
@@ -70,11 +73,11 @@ public class ReportsTests
         var handler = new UpdateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateReportCommand() { Id = _repositoryFacade.Reports[0].Id, TotalIncome = 1000};
+        var command = new UpdateReportCommand() { Id = _repositoryFacade.Inventory.Reports[0].Id, TotalIncome = 1000};
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Reports[0].TotalIncome.ShouldBe(1000);
+        _repositoryFacade.Inventory.Reports[0].TotalIncome.ShouldBe(1000);
     }
 
     [Fact]
@@ -84,10 +87,10 @@ public class ReportsTests
         var handler = new DeleteReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new DeleteReportCommand(_repositoryFacade.Reports[0].Id);
+        var command = new DeleteReportCommand(_repositoryFacade.Inventory.Reports[0].Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Reports.Count.ShouldBe(3);
+       _repositoryFacade.Inventory.Reports.Count.ShouldBe(0);
     }
 }
