@@ -1,6 +1,7 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 
@@ -51,8 +52,9 @@ public class ProjectsTests
     {
         // Arrange
         var emailServiceMock = new Mock<IEmailService>();
+        var loggerMock = new Mock<ILogger<CreateProjectCommandHandler>>();
         var handler = new CreateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper,
-            emailServiceMock.Object);
+            emailServiceMock.Object, loggerMock.Object);
 
         // Act
         var command = new CreateProjectCommand { Name = "new project" };

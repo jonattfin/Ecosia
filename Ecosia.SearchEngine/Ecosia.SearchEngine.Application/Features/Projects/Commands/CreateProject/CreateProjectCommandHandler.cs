@@ -5,6 +5,7 @@ using Ecosia.SearchEngine.Application.Exceptions;
 using Ecosia.SearchEngine.Application.Models.Mail;
 using Ecosia.SearchEngine.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
@@ -13,12 +14,14 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
     private readonly IProjectRepository _projectRepository;
     private readonly IMapper _mapper;
     private readonly IEmailService _emailService;
+    private readonly ILogger<CreateProjectCommandHandler> _logger;
     
-    public CreateProjectCommandHandler(IProjectRepository projectRepository, IMapper mapper, IEmailService emailService)
+    public CreateProjectCommandHandler(IProjectRepository projectRepository, IMapper mapper, IEmailService emailService, ILogger<CreateProjectCommandHandler> logger)
     {
         _projectRepository = projectRepository;
         _mapper = mapper;
         _emailService = emailService;
+        _logger = logger;
     }
     
     public async Task<Guid> Handle(CreateProjectCommand command, CancellationToken cancellationToken)
@@ -39,8 +42,7 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         }
         catch (Exception e)
         {
-            // TODO
-            // Console.WriteLine(e);
+            _logger.LogError("Exception while sending the email", e);
         }
 
         return project.Id;
