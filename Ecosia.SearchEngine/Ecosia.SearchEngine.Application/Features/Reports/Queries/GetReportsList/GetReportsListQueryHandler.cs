@@ -38,7 +38,7 @@ public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, P
             Page = query.Page,
             Size = query.Size,
             Count = count,
-            Reports = reports.Select(report =>
+            Items = reports.Select(report =>
             {
                 var reportListVm = _mapper.Map<ReportListVm>(report);
 

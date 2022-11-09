@@ -30,7 +30,7 @@ public class ReportsTests
 
         // Assert
         result.ShouldBeOfType<PagedReportsListVm>();
-        result.Count.ShouldBe(20);
+        result.Count.ShouldBe(12);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class ReportsTests
 
         // Assert
         result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Inventory.Reports.Count.ShouldBe(21);
+        _repositoryFacade.Inventory.Reports.Count.ShouldBe(13);
     }
 
     [Fact]
@@ -91,6 +91,6 @@ public class ReportsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-       _repositoryFacade.Inventory.Reports.Count.ShouldBe(19);
+       _repositoryFacade.Inventory.Reports.Count.ShouldBe(11);
     }
 }

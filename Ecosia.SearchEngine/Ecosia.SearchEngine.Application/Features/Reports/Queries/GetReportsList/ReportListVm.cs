@@ -1,11 +1,17 @@
+using System.Text.Json;
+using Ecosia.SearchEngine.Application.Contracts;
+using Newtonsoft.Json;
+
 namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
-public class PagedReportsListVm
+public class PagedReportsListVm : IPagination<ReportListVm>
 {
     public int Page { get; set; }
     public int Size { get; set; }
     public int Count { get; set; }
-    public List<ReportListVm> Reports { get; set; }
+
+    [JsonProperty(PropertyName = "reports")]
+    public List<ReportListVm> Items { get; set; }
 }
 
 public class ReportListVm

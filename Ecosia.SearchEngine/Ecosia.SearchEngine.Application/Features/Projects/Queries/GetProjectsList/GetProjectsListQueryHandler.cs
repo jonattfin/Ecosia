@@ -22,7 +22,7 @@ public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery,
 
         return new PagedProjectsListVm()
         {
-            Projects = _mapper.Map<List<ProjectListVm>>(projects),
+            Items = _mapper.Map<List<ProjectListVm>>(projects),
             Page = query.Page,
             Size = query.Size,
             Count = count
