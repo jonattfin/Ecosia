@@ -34,6 +34,15 @@ public class ReportController :  ControllerBase
         
         return Ok(report);
     }
+    
+    [HttpGet("last")]
+    public async Task<ActionResult<IEnumerable<ReportListVm>>> GetLast()
+    {
+        var query = new GetLastReportQuery();
+        var report = await _mediator.Send(query);
+        
+        return Ok(report);
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

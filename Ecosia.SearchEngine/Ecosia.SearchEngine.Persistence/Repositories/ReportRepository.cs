@@ -23,9 +23,22 @@ public class ReportRepository : BaseRepository<Report>, IReportRepository
     {
         return await _context.Reports
             .Skip((page - 1) * size).Take(size)
+            .OrderByDescending(r => r.Year)
+            .ThenByDescending(r => r.Month)
             .Include(report => report.InvestmentsInCategories)
             .Include(report => report.InvestmentsInCountries)
             .AsNoTracking()
             .ToListAsync();
+    }
+
+    public async Task<Report> GetLast()
+    {
+        return await _context.Reports
+            .Include(report => report.InvestmentsInCategories)
+            .Include(report => report.InvestmentsInCountries)
+            .AsNoTracking()
+            .OrderByDescending(r => r.Year)
+            .ThenByDescending(r => r.Month)
+            .FirstOrDefaultAsync();
     }
 }

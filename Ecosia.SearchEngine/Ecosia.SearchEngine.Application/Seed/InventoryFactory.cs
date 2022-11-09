@@ -95,11 +95,13 @@ public static class InventoryFactory
 
         private static IList<Report> GenerateReports()
         {
-            return Enumerable.Range(1, 20).Select(element => new Report()
+            var random = new Random();
+
+            return Enumerable.Range(1, 12).Select(element => new Report()
             {
                 Id = Guid.NewGuid(),
-                Month = "May",
-                Year = 2022,
+                Month = (byte)element,
+                Year = random.Next(2019, 2023),
                 TotalIncome = 100000,
                 TreesFinanced = 50000,
             }).ToList();
@@ -112,23 +114,30 @@ public static class InventoryFactory
 
         private static List<Tag> GenerateTags(IList<Project> projects)
         {
-            return new List<Tag>
+            var list = new List<Tag>();
+
+            foreach (var project in projects)
             {
-                new()
+                list.AddRange(new List<Tag>
                 {
-                    Id = Guid.NewGuid(),
-                    Title = "Partners",
-                    Subtitle = "Kennemer Foods, NTFP-EP",
-                    ProjectId = projects[0].Id
-                },
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Planting method",
-                    Subtitle = "Nurseries, Rainforestation",
-                    ProjectId = projects[0].Id
-                }
-            };
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Partners",
+                        Subtitle = "Kennemer Foods, NTFP-EP",
+                        ProjectId = project.Id
+                    },
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Planting method",
+                        Subtitle = "Nurseries, Rainforestation",
+                        ProjectId = project.Id
+                    }
+                });
+            }
+
+            return list;
         }
 
         private static IList<Country> GenerateCountries()
@@ -193,45 +202,61 @@ public static class InventoryFactory
         private static IList<CategoryInvestment> GenerateCategoriesInvestments(IEnumerable<Report> reports,
             IEnumerable<Category> categories)
         {
-            return new List<CategoryInvestment>
+            var list = new List<CategoryInvestment>();
+            var random = new Random();
+
+            foreach (var report in reports)
             {
-                new()
+                list.AddRange(new List<CategoryInvestment>
                 {
-                    Id = Guid.NewGuid(),
-                    CategoryId = categories.First().Id,
-                    ReportId = reports.First().Id,
-                    Amount = 2000,
-                },
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    CategoryId = categories.Last().Id,
-                    ReportId = reports.First().Id,
-                    Amount = 3000,
-                }
-            };
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        CategoryId = categories.First().Id,
+                        ReportId = report.Id,
+                        Amount = random.Next(1000, 5000),
+                    },
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        CategoryId = categories.Last().Id,
+                        ReportId = report.Id,
+                        Amount = random.Next(1000, 5000),
+                    }
+                });
+            }
+
+            return list;
         }
 
         private static IList<CountryInvestment> GenerateCountriesInvestments(IEnumerable<Report> reports,
             IEnumerable<Country> countries)
         {
-            return new List<CountryInvestment>
+            var list = new List<CountryInvestment>();
+            var random = new Random();
+
+            foreach (var report in reports)
             {
-                new()
+                list.AddRange(new List<CountryInvestment>
                 {
-                    Id = Guid.NewGuid(),
-                    CountryId = countries.First().Id,
-                    ReportId = reports.First().Id,
-                    Amount = 4000,
-                },
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    CountryId = countries.Last().Id,
-                    ReportId = reports.First().Id,
-                    Amount = 5000,
-                }
-            };
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        CountryId = countries.First().Id,
+                        ReportId = report.Id,
+                        Amount = random.Next(1000, 5000),
+                    },
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        CountryId = countries.Last().Id,
+                        ReportId = report.Id,
+                        Amount = random.Next(1000, 5000),
+                    }
+                });
+            }
+
+            return list;
         }
 
         #endregion

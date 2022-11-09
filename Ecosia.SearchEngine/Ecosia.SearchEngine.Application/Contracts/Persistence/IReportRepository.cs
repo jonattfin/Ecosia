@@ -4,4 +4,5 @@ namespace Ecosia.SearchEngine.Application.Contracts.Persistence;
 
 public interface IReportRepository : IAsyncRepository<Report>
 {
+    Task<Report> GetLast();
 }

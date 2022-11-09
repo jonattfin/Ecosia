@@ -12,7 +12,7 @@ public class ReportListVm
 {
     public Guid Id { get; set; }
 
-    public string Month { get; set; }
+    public byte Month { get; set; }
 
     public int Year { get; set; }
 
