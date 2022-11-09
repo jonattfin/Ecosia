@@ -39,7 +39,7 @@ public class ReportsTests
         // Arrange
         var query = new GetReportDetailQuery(_repositoryFacade.Inventory.Reports.First().Id);
         var handler = new GetReportDetailQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
-            _repositoryFacade.Mapper);
+            _repositoryFacade.Mapper, _repositoryFacade.CountryRepositoryMock.Object, _repositoryFacade.CategoryRepositoryMock.Object);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

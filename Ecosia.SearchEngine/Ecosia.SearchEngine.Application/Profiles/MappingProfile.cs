@@ -14,7 +14,10 @@ public class MappingProfile : Profile
     {
         CreateMap<Project, ProjectListVm>().ReverseMap();
         CreateMap<Tag, TagListVm>().ReverseMap();
+        
         CreateMap<Project, ProjectDetailVm>().ReverseMap();
+        CreateMap<Tag, TagDetailVm>().ReverseMap();
+        
         CreateMap<CreateProjectCommand, Project>();
         CreateMap<Project, CreateProjectCommand>().ReverseMap();
         CreateMap<Project, UpdateProjectCommand>().ReverseMap();
@@ -22,7 +25,11 @@ public class MappingProfile : Profile
         CreateMap<Report, ReportListVm>().ReverseMap();
         CreateMap<CategoryInvestment, CategoryInvestmentVm>().ReverseMap();
         CreateMap<CountryInvestment, CountryInvestmentVm>().ReverseMap();
+        
         CreateMap<Report, ReportDetailVm>().ReverseMap();
+        CreateMap<CategoryInvestment, CategoryDetailInvestmentVm>().ReverseMap();
+        CreateMap<CountryInvestment, CountryDetailInvestmentVm>().ReverseMap();
+        
         CreateMap<CreateReportCommand, Report>();
         CreateMap<Report, CreateReportCommand>().ReverseMap();
         CreateMap<Report, UpdateReportCommand>().ReverseMap();

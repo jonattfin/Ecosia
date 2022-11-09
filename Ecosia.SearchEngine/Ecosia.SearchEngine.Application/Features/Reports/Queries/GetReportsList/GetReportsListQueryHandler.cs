@@ -1,6 +1,5 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
-using Ecosia.SearchEngine.Application.Features.Projects.Queries;
 using MediatR;
 using TaskExtensions = Ecosia.SearchEngine.Application.Extensions.TaskExtensions;
 

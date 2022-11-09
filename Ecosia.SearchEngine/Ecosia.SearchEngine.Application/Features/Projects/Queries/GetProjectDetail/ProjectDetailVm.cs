@@ -18,4 +18,12 @@ public class ProjectDetailVm
     public int? YearSince { get; set; }
 
     public string ImageUrl { get; set; }
+    
+    public List<TagDetailVm> Tags { get; set; }
+}
+
+public class TagDetailVm
+{
+    public string Title { get; set; }
+    public string Subtitle { get; set; }
 }
