@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[ApiVersion("1.0")]
+[Route("/api/v{version:apiVersion}/search")]
 public class SearchController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -17,9 +18,9 @@ public class SearchController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<SearchesListVm>>> Get(string text)
+    public async Task<ActionResult<PagedSearchesListVm>> Get(string text, int page = 1, int size = 5)
     {
-        var query = new GetSearchesListQuery { Text = text };
+        var query = new GetSearchesListQuery(text, page, size);
         var searches = await _mediator.Send(query);
 
         return Ok(searches);

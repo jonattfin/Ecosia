@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class ProjectController : ControllerBase
+[ApiVersion("1.0")]
+[Route("/api/v{version:apiVersion}/projects")]
+public class ProjectsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ProjectController(IMediator mediator)
+    public ProjectsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ProjectListVm>>> Get(int page = 1, int size = 5)
+    public async Task<ActionResult<PagedProjectsListVm>> Get(int page = 1, int size = 5)
     {
         var query = new GetProjectsListQuery(page, size);
         var projects = await _mediator.Send(query);
@@ -27,7 +28,7 @@ public class ProjectController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<ProjectListVm>>> GetById(Guid id)
+    public async Task<ActionResult<ProjectDetailVm>> GetById(Guid id)
     {
         var query = new GetProjectDetailQuery(id);
         var project = await _mediator.Send(query);

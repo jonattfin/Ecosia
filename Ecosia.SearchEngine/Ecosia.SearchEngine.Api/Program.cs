@@ -2,6 +2,7 @@ using Ecosia.SearchEngine.Api.Hubs;
 using Ecosia.SearchEngine.Application;
 using Ecosia.SearchEngine.Infrastructure;
 using Ecosia.SearchEngine.Persistence;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,12 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {

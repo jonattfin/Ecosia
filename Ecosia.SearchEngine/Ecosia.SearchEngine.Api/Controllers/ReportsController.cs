@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class ReportController :  ControllerBase
+[ApiVersion("1.0")]
+[Route("/api/v{version:apiVersion}/reports")]
+public class ReportsController :  ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ReportController(IMediator mediator)
+    public ReportsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ReportListVm>>> Get(int page = 1, int size = 5)
+    public async Task<ActionResult<PagedReportsListVm>> Get(int page = 1, int size = 5)
     {
         var query = new GetReportsListQuery(page, size);
         var reports = await _mediator.Send(query);
@@ -27,7 +28,7 @@ public class ReportController :  ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<ReportListVm>>> GetById(Guid id)
+    public async Task<ActionResult<ReportDetailVm>> GetById(Guid id)
     {
         var query = new GetReportDetailQuery(id);
         var report = await _mediator.Send(query);
@@ -36,7 +37,7 @@ public class ReportController :  ControllerBase
     }
     
     [HttpGet("last")]
-    public async Task<ActionResult<IEnumerable<ReportListVm>>> GetLast()
+    public async Task<ActionResult<ReportDetailVm>> GetLast()
     {
         var query = new GetLastReportQuery();
         var report = await _mediator.Send(query);

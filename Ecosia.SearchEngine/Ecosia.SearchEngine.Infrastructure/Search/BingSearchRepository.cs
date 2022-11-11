@@ -9,8 +9,8 @@ public class BingSearchRepository : ISearchRepository
         var results = Enumerable.Range(1, 10).Select(element
             => new Domain.Entities.Search
             {
-                Title = $"title {element} {text}",
-                Description = $"description {element}",
+                Name = $"name {element} {text}",
+                Snippet = $"snippet {element}",
                 Url = $"url {element}"
             });
         return await Task.FromResult(results);
