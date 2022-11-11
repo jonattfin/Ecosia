@@ -6,7 +6,7 @@ public class BingSearchRepository : ISearchRepository
 {
     public async Task<IEnumerable<Domain.Entities.Search>> ListAllAsync(string text)
     {
-        var results = Enumerable.Range(1, 10).Select(element
+        var results = Enumerable.Range(1, 30).Select(element
             => new Domain.Entities.Search
             {
                 Name = $"name {element} {text}",

@@ -19,7 +19,8 @@ public class SearchTests
         var handler = new GetSearchesListQueryHandler(_repositoryFacade.SearchRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var result = await handler.Handle(new GetSearchesListQuery(), CancellationToken.None);
+        var (text, page, size) = ("hello", 1, 5);
+        var result = await handler.Handle(new GetSearchesListQuery(text, page, size), CancellationToken.None);
 
         // Assert
         result.ShouldBeOfType<List<SearchesListVm>>();
