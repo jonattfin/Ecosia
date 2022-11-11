@@ -1,9 +1,10 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Shouldly;
+
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Projects;
 
@@ -27,8 +28,8 @@ public class ProjectsTests
         var result = await handler.Handle(new GetProjectsListQuery(1, 10), CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<PagedProjectsListVm>();
-        result.Count.ShouldBe(4);
+        result.Should().BeOfType<PagedProjectsListVm>();
+        result.Count.Should().Be(4);
     }
 
     [Fact]
@@ -43,8 +44,8 @@ public class ProjectsTests
         var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<ProjectDetailVm>();
-        result.Id.ShouldBe(query.Id);
+        result.Should().BeOfType<ProjectDetailVm>();
+        result.Id.Should().Be(query.Id);
     }
 
     [Fact]
@@ -61,8 +62,7 @@ public class ProjectsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Inventory.Projects.Count.ShouldBe(5);
+        _repositoryFacade.Inventory.Projects.Count.Should().Be(5);
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class ProjectsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects[0].Name.ShouldBe("Updated Name");
+        _repositoryFacade.Inventory.Projects[0].Name.Should().Be("Updated Name");
     }
 
     [Fact]
@@ -90,6 +90,6 @@ public class ProjectsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.Count.ShouldBe(3);
+        _repositoryFacade.Inventory.Projects.Count.Should().Be(3);
     }
 }

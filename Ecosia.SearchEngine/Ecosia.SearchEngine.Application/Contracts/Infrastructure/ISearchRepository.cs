@@ -4,5 +4,7 @@ namespace Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 
 public interface ISearchRepository
 {
-    Task<IEnumerable<Search>> ListAllAsync(string text);
+    Task<IEnumerable<Search>> ListAllAsync(string text, int page, int size);
+
+    Task<int> CountAsync();
 }

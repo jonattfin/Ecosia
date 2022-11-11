@@ -1,4 +1,3 @@
-using Ecosia.SearchEngine.Api.Hubs;
 using Ecosia.SearchEngine.Application;
 using Ecosia.SearchEngine.Infrastructure;
 using Ecosia.SearchEngine.Persistence;
@@ -20,7 +19,7 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
 });
-builder.Services.AddSignalR();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policyBuilder =>
@@ -51,7 +50,5 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapHub<CounterHub>("counter");
 
 app.Run();

@@ -1,8 +1,8 @@
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Features.Reports.Commands;
 using Ecosia.SearchEngine.Application.Features.Reports.Queries;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Reports;
 
@@ -29,8 +29,8 @@ public class ReportsTests
         var result = await handler.Handle(new GetReportsListQuery(1, 10), CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<PagedReportsListVm>();
-        result.Count.ShouldBe(12);
+        result.Should().BeOfType<PagedReportsListVm>();
+        result.Count.Should().Be(12);
     }
 
     [Fact]
@@ -45,8 +45,8 @@ public class ReportsTests
         var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<ReportDetailVm>();
-        result.Id.ShouldBe(query.Id);
+        result.Should().BeOfType<ReportDetailVm>();
+        result.Id.Should().Be(query.Id);
     }
 
     [Fact]
@@ -62,8 +62,7 @@ public class ReportsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<Guid>();
-        _repositoryFacade.Inventory.Reports.Count.ShouldBe(13);
+        _repositoryFacade.Inventory.Reports.Count.Should().Be(13);
     }
 
     [Fact]
@@ -77,7 +76,7 @@ public class ReportsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Reports[0].TotalIncome.ShouldBe(1000);
+        _repositoryFacade.Inventory.Reports[0].TotalIncome.Should().Be(1000);
     }
 
     [Fact]
@@ -91,6 +90,6 @@ public class ReportsTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-       _repositoryFacade.Inventory.Reports.Count.ShouldBe(11);
+       _repositoryFacade.Inventory.Reports.Count.Should().Be(11);
     }
 }

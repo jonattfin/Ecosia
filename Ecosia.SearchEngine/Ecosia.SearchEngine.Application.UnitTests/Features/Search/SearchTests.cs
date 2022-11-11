@@ -1,5 +1,5 @@
 using Ecosia.SearchEngine.Application.Features.Search.Queries;
-using Shouldly;
+using FluentAssertions;
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Search;
 
@@ -23,7 +23,7 @@ public class SearchTests
         var result = await handler.Handle(new GetSearchesListQuery(text, page, size), CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<List<SearchesListVm>>();
-        result.Count.ShouldBe(0);
+        result.Should().BeOfType<PagedSearchesListVm>();
+        result.Count.Should().Be(0);
     }
 }

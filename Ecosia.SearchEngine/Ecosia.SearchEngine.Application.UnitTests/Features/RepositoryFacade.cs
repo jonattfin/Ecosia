@@ -113,7 +113,7 @@ public class RepositoryFacade
         var mockRepository = new Mock<ISearchRepository>();
 
         mockRepository.Setup(repo =>
-            repo.ListAllAsync(It.IsAny<string>())).ReturnsAsync(searches);
+            repo.ListAllAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(searches);
 
         return mockRepository;
     }
