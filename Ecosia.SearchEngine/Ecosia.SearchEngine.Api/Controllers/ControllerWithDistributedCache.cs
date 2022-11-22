@@ -23,7 +23,7 @@ public abstract class ControllerWithDistributedCache :  ControllerWithMediator
         }
         
         data = await Mediator.Send(query);
-        DistributedCache.SetObjectAsync(query.CacheKey, data);
+        await DistributedCache.SetObjectAsync(query.CacheKey, data);
 
         return data;
     }

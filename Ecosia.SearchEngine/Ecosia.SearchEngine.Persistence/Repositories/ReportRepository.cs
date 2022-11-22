@@ -16,7 +16,7 @@ public class ReportRepository : BaseRepository<Report>, IReportRepository
             .FirstOrDefaultAsync(project => project.Id == id);
     }
 
-    public override async Task<(IReadOnlyList<Report>, int)> ListAllAsync(int page, int size)
+    public override async Task<(IEnumerable<Report>, int)> ListAllAsync(int page, int size)
     {
         var items = await GetReportsWithInvestments()
             .Skip((page - 1) * size).Take(size)

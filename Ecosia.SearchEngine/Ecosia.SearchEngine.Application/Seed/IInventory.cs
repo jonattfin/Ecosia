@@ -6,10 +6,11 @@ public interface IInventory
 {
     IList<Project> Projects { get; }
     IList<Report> Reports { get; }
-    IList<Tag> Tags { get; }
-    IList<Search> Searches { get; }
-    IList<Country> Countries { get; }
-    IList<Category> Categories { get; }
-    IList<CategoryInvestment> CategoriesInvestments { get; }
-    IList<CountryInvestment> CountriesInvestments { get; }
+    
+    IEnumerable<Tag> Tags { get; }
+    IEnumerable<Search> Searches { get; }
+    IEnumerable<Country> Countries { get; }
+    IEnumerable<Category> Categories { get; }
+    IEnumerable<CategoryInvestment> CategoriesInvestments { get; }
+    IEnumerable<CountryInvestment> CountriesInvestments { get; }
 }

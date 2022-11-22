@@ -4,9 +4,9 @@ public interface IAsyncRepository<T> where T : class
 {
     Task<T> GetByIdAsync(Guid id);
 
-    Task<(IReadOnlyList<T>, int)> ListAllAsync(int Page, int Size);
+    Task<(IEnumerable<T>, int)> ListAllAsync(int Page, int Size);
     
-    Task<IReadOnlyList<T>> ListAllAsync();
+    Task<IEnumerable<T>> ListAllAsync();
 
     Task<T> AddAsync(T entity);
 

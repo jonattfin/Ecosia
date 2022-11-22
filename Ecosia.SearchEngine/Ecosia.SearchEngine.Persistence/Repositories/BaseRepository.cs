@@ -17,7 +17,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         return await _context.Set<T>().FindAsync(id);
     }
 
-    public virtual async Task<(IReadOnlyList<T>, int)> ListAllAsync(int page, int size)
+    public virtual async Task<(IEnumerable<T>, int)> ListAllAsync(int page, int size)
     {
         var items = await _context.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
         var count = await _context.Set<T>().AsNoTracking().CountAsync();
@@ -25,7 +25,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         return (items, count);
     }
 
-    public async Task<IReadOnlyList<T>> ListAllAsync()
+    public async Task<IEnumerable<T>> ListAllAsync()
     {
         return await _context.Set<T>().AsNoTracking().ToListAsync();
     }

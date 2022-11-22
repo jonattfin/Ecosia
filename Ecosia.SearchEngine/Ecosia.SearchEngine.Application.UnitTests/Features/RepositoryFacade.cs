@@ -48,7 +48,7 @@ public class RepositoryFacade
         var mockProjectRepository = new Mock<IProjectRepository>();
 
         mockProjectRepository.Setup(repo =>
-            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync((projects.ToImmutableList(), projects.Count));
+            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync((projects, projects.Count));
 
         mockProjectRepository.Setup(repo =>
             repo.GetByIdAsync(projects.First().Id)).ReturnsAsync(projects.First);
@@ -78,7 +78,7 @@ public class RepositoryFacade
         var mockRepository = new Mock<IReportRepository>();
 
         mockRepository.Setup(repo =>
-            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync((reports.ToImmutableList(), reports.Count));
+            repo.ListAllAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync((reports, reports.Count));
 
         mockRepository.Setup(repo =>
             repo.GetByIdAsync(reports.First().Id)).ReturnsAsync(reports.First);
@@ -103,7 +103,7 @@ public class RepositoryFacade
         return mockRepository;
     }
 
-    private static Mock<ISearchRepository> CreateSearchRepositoryMock(IList<Domain.Entities.Search> searches)
+    private static Mock<ISearchRepository> CreateSearchRepositoryMock(IEnumerable<Domain.Entities.Search> searches)
     {
         var mockRepository = new Mock<ISearchRepository>();
 
@@ -113,20 +113,20 @@ public class RepositoryFacade
         return mockRepository;
     }
 
-    private static Mock<ICategoryRepository> CreateCategoryRepositoryMock(IList<Category> categories)
+    private static Mock<ICategoryRepository> CreateCategoryRepositoryMock(IEnumerable<Category> categories)
     {
         var mockRepository = new Mock<ICategoryRepository>();
 
-        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(categories.ToList());
+        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(categories);
 
         return mockRepository;
     }
 
-    private static Mock<ICountryRepository> CreateCountryRepositoryMock(IList<Country> countries)
+    private static Mock<ICountryRepository> CreateCountryRepositoryMock(IEnumerable<Country> countries)
     {
         var mockRepository = new Mock<ICountryRepository>();
 
-        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(countries.ToList());
+        mockRepository.Setup(repo => repo.ListAllAsync()).ReturnsAsync(countries);
 
         return mockRepository;
     }

@@ -62,7 +62,7 @@ public class ReportsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Reports.Count.Should().Be(13);
+        _repositoryFacade.Inventory.Reports.Count().Should().Be(13);
     }
 
     [Fact]
@@ -72,11 +72,11 @@ public class ReportsTests
         var handler = new UpdateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateReportCommand { Id = _repositoryFacade.Inventory.Reports[0].Id, TotalIncome = 1000};
+        var command = new UpdateReportCommand { Id = _repositoryFacade.Inventory.Reports.First().Id, TotalIncome = 1000};
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Reports[0].TotalIncome.Should().Be(1000);
+        _repositoryFacade.Inventory.Reports.First().TotalIncome.Should().Be(1000);
     }
 
     [Fact]
@@ -86,10 +86,10 @@ public class ReportsTests
         var handler = new DeleteReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new DeleteReportCommand(_repositoryFacade.Inventory.Reports[0].Id);
+        var command = new DeleteReportCommand(_repositoryFacade.Inventory.Reports.First().Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-       _repositoryFacade.Inventory.Reports.Count.Should().Be(11);
+       _repositoryFacade.Inventory.Reports.Count().Should().Be(11);
     }
 }

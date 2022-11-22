@@ -5,7 +5,6 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Projects;
 
 public class ProjectsTests
@@ -62,7 +61,7 @@ public class ProjectsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.Count.Should().Be(5);
+        _repositoryFacade.Inventory.Projects.Count().Should().Be(5);
     }
 
     [Fact]
@@ -72,11 +71,11 @@ public class ProjectsTests
         var handler = new UpdateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new UpdateProjectCommand { Id = _repositoryFacade.Inventory.Projects[0].Id, Name = "Updated Name" };
+        var command = new UpdateProjectCommand { Id = _repositoryFacade.Inventory.Projects.First().Id, Name = "Updated Name" };
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects[0].Name.Should().Be("Updated Name");
+        _repositoryFacade.Inventory.Projects.First().Name.Should().Be("Updated Name");
     }
 
     [Fact]
@@ -86,10 +85,10 @@ public class ProjectsTests
         var handler = new DeleteProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
 
         // Act
-        var command = new DeleteProjectCommand(_repositoryFacade.Inventory.Projects[0].Id);
+        var command = new DeleteProjectCommand(_repositoryFacade.Inventory.Projects.First().Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.Count.Should().Be(3);
+        _repositoryFacade.Inventory.Projects.Count().Should().Be(3);
     }
 }
