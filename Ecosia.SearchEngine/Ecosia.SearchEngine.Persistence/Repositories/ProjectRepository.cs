@@ -16,11 +16,15 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
             .FirstOrDefaultAsync(project => project.Id == id);
     }
 
-    public override async Task<IReadOnlyList<Project>> ListAllAsync(int page, int size)
+    public override async Task<(IReadOnlyList<Project>, int)> ListAllAsync(int page, int size)
     {
-        return await GetProjectsWithTags().Skip((page - 1) * size).Take(size)
+        var items = await GetProjectsWithTags().Skip((page - 1) * size).Take(size)
             .OrderByDescending(p => p.YearSince)
             .ToListAsync();
+
+        var count = await GetProjectsWithTags().CountAsync();
+
+        return (items, count);
     }
 
     private IQueryable<Project> GetProjectsWithTags()

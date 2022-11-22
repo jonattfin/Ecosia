@@ -17,8 +17,7 @@ public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery,
 
     public async Task<PagedProjectsListVm> Handle(GetProjectsListQuery query, CancellationToken cancellationToken)
     {
-        var projects = (await _projectRepository.ListAllAsync(query.Page, query.Size));
-        var count = (await _projectRepository.CountAsync());
+        var (projects, count) = (await _projectRepository.ListAllAsync(query.Page, query.Size));
 
         return new PagedProjectsListVm()
         {

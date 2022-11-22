@@ -26,12 +26,11 @@ public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, P
 
     public async Task<PagedReportsListVm> Handle(GetReportsListQuery query, CancellationToken cancellationToken)
     {
-        var (countries, categories, reports, count) =
+        var (countries, categories, (reports, count)) =
             await TaskExtensions.ExecuteInParallel(
                 _countryRepository.ListAllAsync(),
                 _categoryRepository.ListAllAsync(),
-                _reportRepository.ListAllAsync(query.Page, query.Size),
-                _reportRepository.CountAsync());
+                _reportRepository.ListAllAsync(query.Page, query.Size));
 
         return new PagedReportsListVm()
         {

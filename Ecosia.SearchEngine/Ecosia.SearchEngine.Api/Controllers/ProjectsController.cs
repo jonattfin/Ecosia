@@ -19,7 +19,9 @@ public class ProjectsController : ControllerWithDistributedCache
     public async Task<ActionResult<PagedProjectsListVm>> Get(int page = 1, int size = 5)
     {
         var query = new GetProjectsListQuery(page, size) { CacheKey = $"Projects_{page}_{size}" };
-        return Ok(await GetDataAsync(query));
+        var projects = await GetDataAsync(query);
+        
+        return Ok(projects);
     }
 
     [HttpGet("{id}")]

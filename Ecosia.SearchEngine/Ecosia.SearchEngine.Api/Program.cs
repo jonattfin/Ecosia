@@ -16,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // builder.Services.AddResponseCaching();
+
 builder.Services.AddDistributedRedisCache(options =>
 {
     options.Configuration = "localhost";

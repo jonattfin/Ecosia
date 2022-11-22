@@ -17,19 +17,17 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         return await _context.Set<T>().FindAsync(id);
     }
 
-    public virtual async Task<IReadOnlyList<T>> ListAllAsync(int page, int size)
+    public virtual async Task<(IReadOnlyList<T>, int)> ListAllAsync(int page, int size)
     {
-        return await _context.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+        var items = await _context.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+        var count = await _context.Set<T>().AsNoTracking().CountAsync();
+
+        return (items, count);
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {
-        return await ListAllAsync(1, Int32.MaxValue);
-    }
-
-    public async Task<int> CountAsync()
-    {
-        return await _context.Set<T>().AsNoTracking().CountAsync();
+        return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
     public async Task<T> AddAsync(T entity)

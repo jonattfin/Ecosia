@@ -16,13 +16,17 @@ public class ReportRepository : BaseRepository<Report>, IReportRepository
             .FirstOrDefaultAsync(project => project.Id == id);
     }
 
-    public override async Task<IReadOnlyList<Report>> ListAllAsync(int page, int size)
+    public override async Task<(IReadOnlyList<Report>, int)> ListAllAsync(int page, int size)
     {
-        return await GetReportsWithInvestments()
+        var items = await GetReportsWithInvestments()
             .Skip((page - 1) * size).Take(size)
             .OrderByDescending(r => r.Year)
             .ThenByDescending(r => r.Month)
             .ToListAsync();
+
+        var count = await GetReportsWithInvestments().CountAsync();
+
+        return (items, count);
     }
 
     public async Task<Report> GetLast()
