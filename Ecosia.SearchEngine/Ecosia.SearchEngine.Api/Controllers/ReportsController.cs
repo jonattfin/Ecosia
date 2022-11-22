@@ -1,4 +1,3 @@
-using Ecosia.SearchEngine.Api.Extensions;
 using Ecosia.SearchEngine.Application.Features.Reports.Commands;
 using Ecosia.SearchEngine.Application.Features.Reports.Queries;
 using MediatR;
@@ -9,7 +8,7 @@ namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiVersion("1.0")]
 [Route("/api/v{version:apiVersion}/reports")]
-public class ReportsController : ApplicationControllerWithDistributedCache
+public class ReportsController : ControllerWithDistributedCache
 {
     public ReportsController(IMediator mediator, IDistributedCache distributedCache) : base(mediator, distributedCache)
     {
@@ -19,9 +18,7 @@ public class ReportsController : ApplicationControllerWithDistributedCache
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedReportsListVm>> Get(int page = 1, int size = 5)
     {
-        var key = $"Reports_{page}_{size}";
-
-        var query = new GetReportsListQuery(page, size);
+        var query = new GetReportsListQuery(page, size) { CacheKey = $"Reports_{page}_{size}" };
         var reports = await GetDataAsync(query);
 
         return Ok(reports);
@@ -30,7 +27,7 @@ public class ReportsController : ApplicationControllerWithDistributedCache
     [HttpGet("{id}")]
     public async Task<ActionResult<ReportDetailVm>> GetById(Guid id)
     {
-        var query = new GetReportDetailQuery(id);
+        var query = new GetReportDetailQuery(id) { CacheKey = id.ToString() };
         var report = await GetDataAsync(query);
 
         return Ok(report);

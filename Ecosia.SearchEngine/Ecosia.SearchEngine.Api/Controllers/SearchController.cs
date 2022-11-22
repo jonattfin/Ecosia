@@ -7,7 +7,7 @@ namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiVersion("1.0")]
 [Route("/api/v{version:apiVersion}/search")]
-public class SearchController : ApplicationControllerWithMediator
+public class SearchController : ControllerWithMediator
 {
     public SearchController(IMediator mediator, IDistributedCache cache) : base(mediator)
     {

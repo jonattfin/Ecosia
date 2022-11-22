@@ -8,7 +8,7 @@ namespace Ecosia.SearchEngine.Api.Controllers;
 
 [ApiVersion("1.0")]
 [Route("/api/v{version:apiVersion}/projects")]
-public class ProjectsController : ApplicationControllerWithDistributedCache
+public class ProjectsController : ControllerWithDistributedCache
 {
     public ProjectsController(IMediator mediator, IDistributedCache distributedCache) : base(mediator, distributedCache)
     {
@@ -18,16 +18,14 @@ public class ProjectsController : ApplicationControllerWithDistributedCache
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedProjectsListVm>> Get(int page = 1, int size = 5)
     {
-        var query = new GetProjectsListQuery(page, size);
-        var projects = await GetDataAsync(query);
-
-        return Ok(projects);
+        var query = new GetProjectsListQuery(page, size) { CacheKey = $"Projects_{page}_{size}" };
+        return Ok(await GetDataAsync(query));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDetailVm>> GetById(Guid id)
     {
-        var query = new GetProjectDetailQuery(id);
+        var query = new GetProjectDetailQuery(id) { CacheKey = id.ToString() };
         var project = await GetDataAsync(query);
 
         return Ok(project);
