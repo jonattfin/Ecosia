@@ -1,19 +1,16 @@
 using Ecosia.SearchEngine.Application.Features.Search.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Ecosia.SearchEngine.Api.Controllers;
 
-[ApiController]
 [ApiVersion("1.0")]
 [Route("/api/v{version:apiVersion}/search")]
-public class SearchController : ControllerBase
+public class SearchController : ApplicationControllerWithMediator
 {
-    private readonly IMediator _mediator;
-
-    public SearchController(IMediator mediator)
+    public SearchController(IMediator mediator, IDistributedCache cache) : base(mediator)
     {
-        _mediator = mediator;
     }
 
     [HttpGet]
@@ -21,7 +18,7 @@ public class SearchController : ControllerBase
     public async Task<ActionResult<PagedSearchesListVm>> Get(string text, int page = 1, int size = 5)
     {
         var query = new GetSearchesListQuery(text, page, size);
-        var searches = await _mediator.Send(query);
+        var searches = await Mediator.Send(query);
 
         return Ok(searches);
     }

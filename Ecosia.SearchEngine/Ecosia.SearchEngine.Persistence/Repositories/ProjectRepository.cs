@@ -12,16 +12,20 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
 
     public override async Task<Project> GetByIdAsync(Guid id)
     {
-        return await _context.Projects.Include(project => project.Tags)
-            .AsNoTracking()
+        return await GetProjectsWithTags()
             .FirstOrDefaultAsync(project => project.Id == id);
     }
 
     public override async Task<IReadOnlyList<Project>> ListAllAsync(int page, int size)
     {
-        return await _context.Projects.Skip((page - 1) * size).Take(size)
+        return await GetProjectsWithTags().Skip((page - 1) * size).Take(size)
             .OrderByDescending(p => p.YearSince)
-            .Include(project => project.Tags)
-            .AsNoTracking().ToListAsync();
+            .ToListAsync();
+    }
+
+    private IQueryable<Project> GetProjectsWithTags()
+    {
+        return _context.Projects.Include(project => project.Tags)
+            .AsNoTracking();
     }
 }

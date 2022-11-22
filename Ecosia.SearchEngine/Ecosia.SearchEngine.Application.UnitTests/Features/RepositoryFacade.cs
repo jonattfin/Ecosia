@@ -20,7 +20,6 @@ public class RepositoryFacade
         });
 
         Mapper = configurationProvider.CreateMapper();
-
         Inventory = InventoryFactory.CreateInventory();
 
         ProjectRepositoryMock = CreateProjectRepositoryMock(Inventory.Projects);

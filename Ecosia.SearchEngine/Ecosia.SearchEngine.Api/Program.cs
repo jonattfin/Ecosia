@@ -2,6 +2,8 @@ using Ecosia.SearchEngine.Application;
 using Ecosia.SearchEngine.Infrastructure;
 using Ecosia.SearchEngine.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,16 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// builder.Services.AddResponseCaching();
+builder.Services.AddDistributedRedisCache(options =>
+{
+    options.Configuration = "localhost";
+    options.InstanceName = "master";
+});
+builder.Services.AddSingleton<IDistributedCache, RedisCache>();
+
+builder.Services.AddHttpCacheHeaders();
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -48,6 +60,7 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 app.UseAuthorization();
+// app.UseResponseCaching();
 
 app.MapControllers();
 

@@ -2,19 +2,16 @@ using Ecosia.SearchEngine.Application.Features.Projects.Commands;
 using Ecosia.SearchEngine.Application.Features.Projects.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Ecosia.SearchEngine.Api.Controllers;
 
-[ApiController]
 [ApiVersion("1.0")]
 [Route("/api/v{version:apiVersion}/projects")]
-public class ProjectsController : ControllerBase
+public class ProjectsController : ApplicationControllerWithDistributedCache
 {
-    private readonly IMediator _mediator;
-
-    public ProjectsController(IMediator mediator)
+    public ProjectsController(IMediator mediator, IDistributedCache distributedCache) : base(mediator, distributedCache)
     {
-        _mediator = mediator;
     }
 
     [HttpGet]
@@ -22,17 +19,17 @@ public class ProjectsController : ControllerBase
     public async Task<ActionResult<PagedProjectsListVm>> Get(int page = 1, int size = 5)
     {
         var query = new GetProjectsListQuery(page, size);
-        var projects = await _mediator.Send(query);
-        
+        var projects = await GetDataAsync(query);
+
         return Ok(projects);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDetailVm>> GetById(Guid id)
     {
         var query = new GetProjectDetailQuery(id);
-        var project = await _mediator.Send(query);
-        
+        var project = await GetDataAsync(query);
+
         return Ok(project);
     }
 
@@ -40,19 +37,19 @@ public class ProjectsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Post(CreateProjectCommand command)
     {
-        var id = await _mediator.Send(command);
-        
+        var id = await Mediator.Send(command);
+
         return Ok(id);
     }
-    
+
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Put(UpdateProjectCommand command)
     {
-        await _mediator.Send(command);
-        
+        await Mediator.Send(command);
+
         return NoContent();
     }
 
@@ -63,8 +60,8 @@ public class ProjectsController : ControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         var command = new DeleteProjectCommand(id);
-        await _mediator.Send(command);
-        
+        await Mediator.Send(command);
+
         return NoContent();
     }
 }

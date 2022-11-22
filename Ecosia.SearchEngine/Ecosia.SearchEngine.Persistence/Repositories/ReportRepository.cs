@@ -12,33 +12,32 @@ public class ReportRepository : BaseRepository<Report>, IReportRepository
 
     public override async Task<Report> GetByIdAsync(Guid id)
     {
-        return await _context.Reports
-            .Include(report => report.InvestmentsInCategories)
-            .Include(report => report.InvestmentsInCountries)
-            .AsNoTracking()
+        return await GetReportsWithInvestments()
             .FirstOrDefaultAsync(project => project.Id == id);
     }
 
     public override async Task<IReadOnlyList<Report>> ListAllAsync(int page, int size)
     {
-        return await _context.Reports
+        return await GetReportsWithInvestments()
             .Skip((page - 1) * size).Take(size)
             .OrderByDescending(r => r.Year)
             .ThenByDescending(r => r.Month)
-            .Include(report => report.InvestmentsInCategories)
-            .Include(report => report.InvestmentsInCountries)
-            .AsNoTracking()
             .ToListAsync();
     }
 
     public async Task<Report> GetLast()
     {
-        return await _context.Reports
-            .Include(report => report.InvestmentsInCategories)
-            .Include(report => report.InvestmentsInCountries)
-            .AsNoTracking()
+        return await GetReportsWithInvestments()
             .OrderByDescending(r => r.Year)
             .ThenByDescending(r => r.Month)
             .FirstOrDefaultAsync();
+    }
+
+    private IQueryable<Report> GetReportsWithInvestments()
+    {
+        return _context.Reports
+            .Include(report => report.InvestmentsInCategories)
+            .Include(report => report.InvestmentsInCountries)
+            .AsNoTracking();
     }
 }
