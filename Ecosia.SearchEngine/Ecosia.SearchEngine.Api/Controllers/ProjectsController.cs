@@ -18,7 +18,7 @@ public class ProjectsController : ControllerWithDistributedCache
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedProjectsListVm>> Get(int page = 1, int size = 5)
     {
-        var query = new GetProjectsListQuery(page, size) { CacheKey = $"Projects_{page}_{size}" };
+        var query = new GetProjectsListQuery(page, size);
         var projects = await GetDataAsync(query);
         
         return Ok(projects);
@@ -27,7 +27,7 @@ public class ProjectsController : ControllerWithDistributedCache
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDetailVm>> GetById(Guid id)
     {
-        var query = new GetProjectDetailQuery(id) { CacheKey = id.ToString() };
+        var query = new GetProjectDetailQuery(id);
         var project = await GetDataAsync(query);
 
         return Ok(project);

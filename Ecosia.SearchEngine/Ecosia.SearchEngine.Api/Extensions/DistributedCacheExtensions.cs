@@ -13,6 +13,7 @@ public static class DistributedCacheExtensions
 
     public static async Task SetObjectAsync<T>(this IDistributedCache cache, string key, T value)
     {
-        await cache.SetStringAsync(key, JsonConvert.SerializeObject(value));
+        await cache.SetStringAsync(key, JsonConvert.SerializeObject(value),
+            new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10) });
     }
 }

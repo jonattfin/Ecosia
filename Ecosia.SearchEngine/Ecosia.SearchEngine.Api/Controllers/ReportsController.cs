@@ -18,7 +18,7 @@ public class ReportsController : ControllerWithDistributedCache
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedReportsListVm>> Get(int page = 1, int size = 5)
     {
-        var query = new GetReportsListQuery(page, size) { CacheKey = $"Reports_{page}_{size}" };
+        var query = new GetReportsListQuery(page, size);
         var reports = await GetDataAsync(query);
 
         return Ok(reports);
@@ -27,7 +27,7 @@ public class ReportsController : ControllerWithDistributedCache
     [HttpGet("{id}")]
     public async Task<ActionResult<ReportDetailVm>> GetById(Guid id)
     {
-        var query = new GetReportDetailQuery(id) { CacheKey = id.ToString() };
+        var query = new GetReportDetailQuery(id);
         var report = await GetDataAsync(query);
 
         return Ok(report);

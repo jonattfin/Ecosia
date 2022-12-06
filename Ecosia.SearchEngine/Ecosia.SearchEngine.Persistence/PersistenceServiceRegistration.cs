@@ -10,7 +10,8 @@ public static class PersistenceServiceRegistration
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services)
     {
         services.AddDbContext<EcosiaDbContext>(options => options.UseInMemoryDatabase(databaseName: "EcosiaDbLocal"));
-
+        // services.AddDbContext<EcosiaDbContext>(options => options.UseSqlite("Data Source=Ecosia.db"));
+        
         services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
 
         services.AddScoped<IProjectRepository, ProjectRepository>();
