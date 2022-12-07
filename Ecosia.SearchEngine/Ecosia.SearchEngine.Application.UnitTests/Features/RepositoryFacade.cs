@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
 using Ecosia.SearchEngine.Application.Contracts.Persistence;

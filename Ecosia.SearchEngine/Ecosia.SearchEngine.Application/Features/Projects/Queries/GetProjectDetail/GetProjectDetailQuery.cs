@@ -1,5 +1,4 @@
 using Ecosia.SearchEngine.Application.Contracts;
-using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 

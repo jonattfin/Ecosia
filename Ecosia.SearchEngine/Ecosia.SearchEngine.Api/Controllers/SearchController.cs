@@ -1,7 +1,6 @@
 using Ecosia.SearchEngine.Application.Features.Search.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Ecosia.SearchEngine.Api.Controllers;
 

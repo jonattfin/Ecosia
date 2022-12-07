@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Ecosia.SearchEngine.Application.Contracts;
 using Newtonsoft.Json;
 
