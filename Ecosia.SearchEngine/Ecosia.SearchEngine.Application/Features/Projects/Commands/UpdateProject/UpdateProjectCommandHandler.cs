@@ -7,22 +7,23 @@ namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand>
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     
-    public UpdateProjectCommandHandler(IProjectRepository projectRepository, IMapper mapper)
+    public UpdateProjectCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _projectRepository = projectRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
     public async Task<Unit> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
     {
-        var projectToUpdate = await _projectRepository.GetByIdAsync(command.Id);
+        var projectToUpdate = await _unitOfWork.ProjectRepository.GetByIdAsync(command.Id);
         _mapper.Map(command, projectToUpdate, typeof(UpdateProjectCommand), typeof(Project));
 
-        await _projectRepository.UpdateAsync(projectToUpdate);
-
+        await _unitOfWork.ProjectRepository.UpdateAsync(projectToUpdate);
+        await _unitOfWork.SaveChangesAsync();
+        
         return Unit.Value;
     }
 }

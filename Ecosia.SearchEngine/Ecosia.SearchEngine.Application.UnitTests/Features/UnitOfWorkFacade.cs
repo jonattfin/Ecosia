@@ -8,9 +8,9 @@ using Moq;
 
 namespace Ecosia.SearchEngine.Application.UnitTests.Features;
 
-public class RepositoryFacade
+public class UnitOfWorkFacade
 {
-    public RepositoryFacade()
+    public UnitOfWorkFacade()
     {
         var configurationProvider = new MapperConfiguration(cfg
             =>
@@ -21,8 +21,8 @@ public class RepositoryFacade
         Mapper = configurationProvider.CreateMapper();
         Inventory = InventoryFactory.CreateInventory();
 
-        ProjectRepositoryMock = CreateProjectRepositoryMock(Inventory.Projects);
-        ReportRepositoryMock = CreateReportRepositoryMock(Inventory.Reports);
+        UnitOfWorkMock = CreateUnitOfWorkMock(Inventory);
+       
         SearchRepositoryMock = CreateSearchRepositoryMock(Inventory.Searches);
         CountryRepositoryMock = CreateCountryRepositoryMock(Inventory.Countries);
         CategoryRepositoryMock = CreateCategoryRepositoryMock(Inventory.Categories);
@@ -32,16 +32,31 @@ public class RepositoryFacade
 
     public IInventory Inventory { get; }
 
-    public Mock<IProjectRepository> ProjectRepositoryMock { get; }
+    public Mock<IUnitOfWork> UnitOfWorkMock { get; }
+    
+    private Mock<IProjectRepository> ProjectRepositoryMock { get; }
 
-    public Mock<IReportRepository> ReportRepositoryMock { get; }
+    private Mock<IReportRepository> ReportRepositoryMock { get; }
 
-    public Mock<ISearchRepository> SearchRepositoryMock { get; }
+    private Mock<ISearchRepository> SearchRepositoryMock { get; }
 
-    public Mock<ICountryRepository> CountryRepositoryMock { get; }
+    private Mock<ICountryRepository> CountryRepositoryMock { get; }
 
-    public Mock<ICategoryRepository> CategoryRepositoryMock { get; }
+    private Mock<ICategoryRepository> CategoryRepositoryMock { get; }
 
+    private static Mock<IUnitOfWork> CreateUnitOfWorkMock(IInventory inventory)
+    {
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+        var projectRepositoryMock = CreateProjectRepositoryMock(inventory.Projects);
+        mockUnitOfWork.Setup(work => work.ProjectRepository).Returns(projectRepositoryMock.Object);
+        
+        var reportRepositoryMock = CreateReportRepositoryMock(inventory.Reports);
+        mockUnitOfWork.Setup(work => work.ReportRepository).Returns(reportRepositoryMock.Object);
+        
+        return mockUnitOfWork;
+    }
+    
     private static Mock<IProjectRepository> CreateProjectRepositoryMock(ICollection<Project> projects)
     {
         var mockProjectRepository = new Mock<IProjectRepository>();

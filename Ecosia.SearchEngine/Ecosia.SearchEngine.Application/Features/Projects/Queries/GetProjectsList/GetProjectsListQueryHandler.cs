@@ -6,18 +6,18 @@ namespace Ecosia.SearchEngine.Application.Features.Projects.Queries;
 
 public class GetProjectsListQueryHandler : IRequestHandler<GetProjectsListQuery, PagedProjectsListVm>
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetProjectsListQueryHandler(IProjectRepository projectRepository, IMapper mapper)
+    public GetProjectsListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _projectRepository = projectRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
     public async Task<PagedProjectsListVm> Handle(GetProjectsListQuery query, CancellationToken cancellationToken)
     {
-        var (projects, count) = (await _projectRepository.ListAllAsync(query.Page, query.Size));
+        var (projects, count) = (await _unitOfWork.ProjectRepository.ListAllAsync(query.Page, query.Size));
 
         return new PagedProjectsListVm()
         {

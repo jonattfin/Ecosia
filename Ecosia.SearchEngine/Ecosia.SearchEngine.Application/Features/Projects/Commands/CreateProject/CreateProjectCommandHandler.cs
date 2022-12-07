@@ -11,14 +11,14 @@ namespace Ecosia.SearchEngine.Application.Features.Projects.Commands;
 
 public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Guid>
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IEmailService _emailService;
     private readonly ILogger<CreateProjectCommandHandler> _logger;
     
-    public CreateProjectCommandHandler(IProjectRepository projectRepository, IMapper mapper, IEmailService emailService, ILogger<CreateProjectCommandHandler> logger)
+    public CreateProjectCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, ILogger<CreateProjectCommandHandler> logger)
     {
-        _projectRepository = projectRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _emailService = emailService;
         _logger = logger;
@@ -33,8 +33,10 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
             throw new ValidationException(validationResult);
             
         var project = _mapper.Map<Project>(command);
-        project = await _projectRepository.AddAsync(project);
-
+        
+        project = await _unitOfWork.ProjectRepository.AddAsync(project);
+        await _unitOfWork.SaveChangesAsync();
+        
         try
         {
             var email = new Email { To = "to", Body = "body", Subject = "subject" };

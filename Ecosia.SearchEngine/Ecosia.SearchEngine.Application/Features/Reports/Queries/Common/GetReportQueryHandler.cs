@@ -8,18 +8,14 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 public abstract class GetReportQueryHandler<TQ> : IRequestHandler<TQ, ReportDetailVm>
     where TQ : IRequest<ReportDetailVm>
 {
-    protected readonly IReportRepository ReportRepository;
+    protected IUnitOfWork UnitOfWork { get; }
+    
     private readonly IMapper _mapper;
-    private readonly ICountryRepository _countryRepository;
-    private readonly ICategoryRepository _categoryRepository;
 
-    protected GetReportQueryHandler(IReportRepository reportRepository, IMapper mapper,
-        ICountryRepository countryRepository, ICategoryRepository categoryRepository)
+    protected GetReportQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        ReportRepository = reportRepository;
+        UnitOfWork = unitOfWork;
         _mapper = mapper;
-        _countryRepository = countryRepository;
-        _categoryRepository = categoryRepository;
     }
 
     public async Task<ReportDetailVm> Handle(TQ query, CancellationToken cancellationToken)
@@ -47,7 +43,7 @@ public abstract class GetReportQueryHandler<TQ> : IRequestHandler<TQ, ReportDeta
             {
                 Amount = investment.Amount,
                 Id = investment.Id,
-                CategoryName = (await _categoryRepository.GetByIdAsync(investment.CategoryId)).Name
+                CategoryName = (await UnitOfWork.CategoryRepository.GetByIdAsync(investment.CategoryId)).Name
             }));
 
         return elements.ToList();
@@ -60,7 +56,7 @@ public abstract class GetReportQueryHandler<TQ> : IRequestHandler<TQ, ReportDeta
             {
                 Amount = investment.Amount,
                 Id = investment.Id,
-                CountryName = (await _countryRepository.GetByIdAsync(investment.CountryId)).Name
+                CountryName = (await UnitOfWork.CountryRepository.GetByIdAsync(investment.CountryId)).Name
             }));
 
         return elements.ToList();

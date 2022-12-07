@@ -6,14 +6,12 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
 public class GetReportDetailQueryHandler : GetReportQueryHandler<GetReportDetailQuery>
 {
-    public GetReportDetailQueryHandler(IReportRepository reportRepository, IMapper mapper,
-        ICountryRepository countryRepository, ICategoryRepository categoryRepository) : base(reportRepository, mapper,
-        countryRepository, categoryRepository)
+    public GetReportDetailQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
     protected override async Task<Report> GetReport(GetReportDetailQuery query)
     {
-        return await ReportRepository.GetByIdAsync(query.Id);
+        return await UnitOfWork.ReportRepository.GetByIdAsync(query.Id);
     }
 }

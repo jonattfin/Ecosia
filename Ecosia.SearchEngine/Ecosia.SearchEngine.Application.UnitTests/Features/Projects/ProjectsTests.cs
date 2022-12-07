@@ -9,19 +9,19 @@ namespace Ecosia.SearchEngine.Application.UnitTests.Features.Projects;
 
 public class ProjectsTests
 {
-    private readonly RepositoryFacade _repositoryFacade;
+    private readonly UnitOfWorkFacade _unitOfWorkFacade;
 
     public ProjectsTests()
     {
-        _repositoryFacade = new RepositoryFacade();
+        _unitOfWorkFacade = new UnitOfWorkFacade();
     }
 
     [Fact]
     public async Task GetProjectsListTest()
     {
         // Arrange
-        var handler = new GetProjectsListQueryHandler(_repositoryFacade.ProjectRepositoryMock.Object,
-            _repositoryFacade.Mapper);
+        var handler = new GetProjectsListQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object,
+            _unitOfWorkFacade.Mapper);
 
         // Act
         var result = await handler.Handle(new GetProjectsListQuery(1, 10), CancellationToken.None);
@@ -35,9 +35,9 @@ public class ProjectsTests
     public async Task GetProjectsDetailsTest()
     {
         // Arrange
-        var query = new GetProjectDetailQuery(_repositoryFacade.Inventory.Projects.First().Id);
-        var handler = new GetProjectDetailQueryHandler(_repositoryFacade.ProjectRepositoryMock.Object,
-            _repositoryFacade.Mapper);
+        var query = new GetProjectDetailQuery(_unitOfWorkFacade.Inventory.Projects.First().Id);
+        var handler = new GetProjectDetailQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object,
+            _unitOfWorkFacade.Mapper);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -53,7 +53,7 @@ public class ProjectsTests
         // Arrange
         var emailServiceMock = new Mock<IEmailService>();
         var loggerMock = new Mock<ILogger<CreateProjectCommandHandler>>();
-        var handler = new CreateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper,
+        var handler = new CreateProjectCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper,
             emailServiceMock.Object, loggerMock.Object);
 
         // Act
@@ -61,34 +61,34 @@ public class ProjectsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.Count().Should().Be(5);
+        _unitOfWorkFacade.Inventory.Projects.Count().Should().Be(5);
     }
 
     [Fact]
     public async Task UpdateProjectTest()
     {
         // Arrange
-        var handler = new UpdateProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
+        var handler = new UpdateProjectCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
-        var command = new UpdateProjectCommand { Id = _repositoryFacade.Inventory.Projects.First().Id, Name = "Updated Name" };
+        var command = new UpdateProjectCommand { Id = _unitOfWorkFacade.Inventory.Projects.First().Id, Name = "Updated Name" };
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.First().Name.Should().Be("Updated Name");
+        _unitOfWorkFacade.Inventory.Projects.First().Name.Should().Be("Updated Name");
     }
 
     [Fact]
     public async Task DeleteProjectTest()
     {
         // Arrange
-        var handler = new DeleteProjectCommandHandler(_repositoryFacade.ProjectRepositoryMock.Object, _repositoryFacade.Mapper);
+        var handler = new DeleteProjectCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
-        var command = new DeleteProjectCommand(_repositoryFacade.Inventory.Projects.First().Id);
+        var command = new DeleteProjectCommand(_unitOfWorkFacade.Inventory.Projects.First().Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Projects.Count().Should().Be(3);
+        _unitOfWorkFacade.Inventory.Projects.Count().Should().Be(3);
     }
 }

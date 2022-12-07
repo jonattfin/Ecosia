@@ -8,29 +8,21 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 public class GetReportsListQueryHandler : IRequestHandler<GetReportsListQuery, PagedReportsListVm>
 {
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    private readonly IReportRepository _reportRepository;
-    private readonly ICountryRepository _countryRepository;
-    private readonly ICategoryRepository _categoryRepository;
-
-    public GetReportsListQueryHandler(IMapper mapper,
-        IReportRepository reportRepository, ICountryRepository countryRepository,
-        ICategoryRepository categoryRepository)
+    public GetReportsListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _mapper = mapper;
-
-        _reportRepository = reportRepository;
-        _countryRepository = countryRepository;
-        _categoryRepository = categoryRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<PagedReportsListVm> Handle(GetReportsListQuery query, CancellationToken cancellationToken)
     {
         var (countries, categories, (reports, count)) =
             await TaskExtensions.ExecuteInParallel(
-                _countryRepository.ListAllAsync(),
-                _categoryRepository.ListAllAsync(),
-                _reportRepository.ListAllAsync(query.Page, query.Size));
+                _unitOfWork.CountryRepository.ListAllAsync(),
+                _unitOfWork.CategoryRepository.ListAllAsync(),
+                _unitOfWork.ReportRepository.ListAllAsync(query.Page, query.Size));
 
         return new PagedReportsListVm()
         {

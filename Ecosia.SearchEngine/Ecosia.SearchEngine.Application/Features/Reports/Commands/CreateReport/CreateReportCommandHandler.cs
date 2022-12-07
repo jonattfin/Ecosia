@@ -10,13 +10,13 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Commands;
 
 public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, Guid>
 {
-    private readonly IReportRepository _reportRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IEmailService _emailService;
     
-    public CreateReportCommandHandler(IReportRepository reportRepository, IMapper mapper, IEmailService emailService)
+    public CreateReportCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService)
     {
-        _reportRepository = reportRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _emailService = emailService;
     }
@@ -30,8 +30,10 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, G
             throw new ValidationException(validationResult);
             
         var report = _mapper.Map<Report>(command);
-        report = await _reportRepository.AddAsync(report);
-
+        
+        report = await _unitOfWork.ReportRepository.AddAsync(report);
+        await _unitOfWork.SaveChangesAsync();
+        
         try
         {
             var email = new Email { To = "to", Body = "body", Subject = "subject" };

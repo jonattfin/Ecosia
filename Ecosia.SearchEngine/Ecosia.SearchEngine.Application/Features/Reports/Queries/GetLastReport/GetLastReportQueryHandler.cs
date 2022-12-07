@@ -6,14 +6,12 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Queries;
 
 public class GetLastReportQueryHandler : GetReportQueryHandler<GetLastReportQuery>
 {
-    public GetLastReportQueryHandler(IReportRepository reportRepository, IMapper mapper,
-        ICountryRepository countryRepository, ICategoryRepository categoryRepository) : base(reportRepository, mapper,
-        countryRepository, categoryRepository)
+    public GetLastReportQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
     protected override async Task<Report> GetReport(GetLastReportQuery query)
     {
-        return await ReportRepository.GetLast();
+        return await UnitOfWork.ReportRepository.GetLast();
     }
 }

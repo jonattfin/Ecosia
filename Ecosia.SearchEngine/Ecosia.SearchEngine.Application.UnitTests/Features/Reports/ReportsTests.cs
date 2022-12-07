@@ -8,22 +8,18 @@ namespace Ecosia.SearchEngine.Application.UnitTests.Features.Reports;
 
 public class ReportsTests
 {
-    private readonly RepositoryFacade _repositoryFacade;
+    private readonly UnitOfWorkFacade _unitOfWorkFacade;
 
     public ReportsTests()
     {
-        _repositoryFacade = new RepositoryFacade();
+        _unitOfWorkFacade = new UnitOfWorkFacade();
     }
 
     [Fact]
     public async Task GetReportsListTest()
     {
         // Arrange
-        var handler = new GetReportsListQueryHandler(_repositoryFacade.Mapper, 
-            _repositoryFacade.ReportRepositoryMock.Object,
-            _repositoryFacade.CountryRepositoryMock.Object,
-            _repositoryFacade.CategoryRepositoryMock.Object
-            );
+        var handler = new GetReportsListQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
         var result = await handler.Handle(new GetReportsListQuery(1, 10), CancellationToken.None);
@@ -37,9 +33,8 @@ public class ReportsTests
     public async Task GetReportsDetailsTest()
     {
         // Arrange
-        var query = new GetReportDetailQuery(_repositoryFacade.Inventory.Reports.First().Id);
-        var handler = new GetReportDetailQueryHandler(_repositoryFacade.ReportRepositoryMock.Object,
-            _repositoryFacade.Mapper, _repositoryFacade.CountryRepositoryMock.Object, _repositoryFacade.CategoryRepositoryMock.Object);
+        var query = new GetReportDetailQuery(_unitOfWorkFacade.Inventory.Reports.First().Id);
+        var handler = new GetReportDetailQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -54,7 +49,7 @@ public class ReportsTests
     {
         // Arrange
         var emailServiceMock = new Mock<IEmailService>();
-        var handler = new CreateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper,
+        var handler = new CreateReportCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper,
             emailServiceMock.Object);
 
         // Act
@@ -62,34 +57,34 @@ public class ReportsTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Reports.Count().Should().Be(13);
+        _unitOfWorkFacade.Inventory.Reports.Count().Should().Be(13);
     }
 
     [Fact]
     public async Task UpdateReportTest()
     {
         // Arrange
-        var handler = new UpdateReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
+        var handler = new UpdateReportCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
-        var command = new UpdateReportCommand { Id = _repositoryFacade.Inventory.Reports.First().Id, TotalIncome = 1000};
+        var command = new UpdateReportCommand { Id = _unitOfWorkFacade.Inventory.Reports.First().Id, TotalIncome = 1000};
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _repositoryFacade.Inventory.Reports.First().TotalIncome.Should().Be(1000);
+        _unitOfWorkFacade.Inventory.Reports.First().TotalIncome.Should().Be(1000);
     }
 
     [Fact]
     public async Task DeleteReportTest()
     {
         // Arrange
-        var handler = new DeleteReportCommandHandler(_repositoryFacade.ReportRepositoryMock.Object, _repositoryFacade.Mapper);
+        var handler = new DeleteReportCommandHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
-        var command = new DeleteReportCommand(_repositoryFacade.Inventory.Reports.First().Id);
+        var command = new DeleteReportCommand(_unitOfWorkFacade.Inventory.Reports.First().Id);
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-       _repositoryFacade.Inventory.Reports.Count().Should().Be(11);
+       _unitOfWorkFacade.Inventory.Reports.Count().Should().Be(11);
     }
 }

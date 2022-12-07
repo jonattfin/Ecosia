@@ -16,7 +16,7 @@ public abstract class ControllerWithDistributedCache :  ControllerWithMediator
 
     protected async Task<T> GetDataAsync<T>(IQueryWithCacheKey<T> query)
     {
-        var data = await DistributedCache.GetObjectAsync<T>(query.CacheKey);
+        var data = default(T); // await DistributedCache.GetObjectAsync<T>(query.CacheKey);
         if (data is not null)
         {
             return data;

@@ -5,18 +5,18 @@ namespace Ecosia.SearchEngine.Application.UnitTests.Features.Search;
 
 public class SearchTests
 {
-    private readonly RepositoryFacade _repositoryFacade;
+    private readonly UnitOfWorkFacade _unitOfWorkFacade;
 
     public SearchTests()
     {
-        _repositoryFacade = new RepositoryFacade();
+        _unitOfWorkFacade = new UnitOfWorkFacade();
     }
 
     [Fact]
     public async Task GetSearchesListTest()
     {
         // Arrange
-        var handler = new GetSearchesListQueryHandler(_repositoryFacade.SearchRepositoryMock.Object, _repositoryFacade.Mapper);
+        var handler = new GetSearchesListQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
 
         // Act
         var (text, page, size) = ("hello", 1, 5);

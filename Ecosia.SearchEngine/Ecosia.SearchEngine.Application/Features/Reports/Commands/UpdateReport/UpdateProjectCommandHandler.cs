@@ -7,21 +7,22 @@ namespace Ecosia.SearchEngine.Application.Features.Reports.Commands;
 
 public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand>
 {
-    private readonly IReportRepository _reportRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     
-    public UpdateReportCommandHandler(IReportRepository reportRepository, IMapper mapper)
+    public UpdateReportCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _reportRepository = reportRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
     public async Task<Unit> Handle(UpdateReportCommand command, CancellationToken cancellationToken)
     {
-        var reportToUpdate = await _reportRepository.GetByIdAsync(command.Id);
+        var reportToUpdate = await _unitOfWork.ReportRepository.GetByIdAsync(command.Id);
         _mapper.Map(command, reportToUpdate, typeof(UpdateReportCommand), typeof(Report));
 
-        await _reportRepository.UpdateAsync(reportToUpdate);
+        await _unitOfWork.ReportRepository.UpdateAsync(reportToUpdate);
+        await _unitOfWork.SaveChangesAsync();
 
         return Unit.Value;
     }
