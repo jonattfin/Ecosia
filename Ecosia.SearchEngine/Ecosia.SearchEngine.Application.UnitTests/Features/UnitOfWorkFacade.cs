@@ -24,8 +24,6 @@ public class UnitOfWorkFacade
         UnitOfWorkMock = CreateUnitOfWorkMock(Inventory);
        
         SearchRepositoryMock = CreateSearchRepositoryMock(Inventory.Searches);
-        CountryRepositoryMock = CreateCountryRepositoryMock(Inventory.Countries);
-        CategoryRepositoryMock = CreateCategoryRepositoryMock(Inventory.Categories);
     }
 
     public IMapper Mapper { get; }
@@ -34,15 +32,7 @@ public class UnitOfWorkFacade
 
     public Mock<IUnitOfWork> UnitOfWorkMock { get; }
     
-    private Mock<IProjectRepository> ProjectRepositoryMock { get; }
-
-    private Mock<IReportRepository> ReportRepositoryMock { get; }
-
-    private Mock<ISearchRepository> SearchRepositoryMock { get; }
-
-    private Mock<ICountryRepository> CountryRepositoryMock { get; }
-
-    private Mock<ICategoryRepository> CategoryRepositoryMock { get; }
+    public Mock<ISearchRepository> SearchRepositoryMock { get; }
 
     private static Mock<IUnitOfWork> CreateUnitOfWorkMock(IInventory inventory)
     {
@@ -53,6 +43,12 @@ public class UnitOfWorkFacade
         
         var reportRepositoryMock = CreateReportRepositoryMock(inventory.Reports);
         mockUnitOfWork.Setup(work => work.ReportRepository).Returns(reportRepositoryMock.Object);
+        
+        var countryRepositoryMock = CreateCountryRepositoryMock(inventory.Countries);
+        mockUnitOfWork.Setup(work => work.CountryRepository).Returns(countryRepositoryMock.Object);
+        
+        var categoryRepositoryMock = CreateCategoryRepositoryMock(inventory.Categories);
+        mockUnitOfWork.Setup(work => work.CategoryRepository).Returns(categoryRepositoryMock.Object);
         
         return mockUnitOfWork;
     }

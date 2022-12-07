@@ -1,3 +1,6 @@
+using Ecosia.SearchEngine.Application.Features.Search.Queries;
+using FluentAssertions;
+
 namespace Ecosia.SearchEngine.Application.UnitTests.Features.Search;
 
 public class SearchTests
@@ -12,15 +15,15 @@ public class SearchTests
     [Fact]
     public async Task GetSearchesListTest()
     {
-        // // Arrange
-        // var handler = new GetSearchesListQueryHandler(_unitOfWorkFacade.UnitOfWorkMock.Object, _unitOfWorkFacade.Mapper);
-        //
-        // // Act
-        // var (text, page, size) = ("hello", 1, 5);
-        // var result = await handler.Handle(new GetSearchesListQuery(text, page, size), CancellationToken.None);
-        //
-        // // Assert
-        // result.Should().BeOfType<PagedSearchesListVm>();
-        // result.Count.Should().Be(0);
+        // Arrange
+        var handler = new GetSearchesListQueryHandler(_unitOfWorkFacade.SearchRepositoryMock.Object, _unitOfWorkFacade.Mapper);
+        
+        // Act
+        var (text, page, size) = ("hello", 1, 5);
+        var result = await handler.Handle(new GetSearchesListQuery(text, page, size), CancellationToken.None);
+        
+        // Assert
+        result.Should().BeOfType<PagedSearchesListVm>();
+        result.Count.Should().Be(0);
     }
 }
