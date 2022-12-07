@@ -1,25 +1,24 @@
 using AutoMapper;
 using Ecosia.SearchEngine.Application.Contracts.Infrastructure;
-using Ecosia.SearchEngine.Application.Contracts.Persistence;
 using MediatR;
 
 namespace Ecosia.SearchEngine.Application.Features.Search.Queries;
 
 public class GetSearchesListQueryHandler : IRequestHandler<GetSearchesListQuery, PagedSearchesListVm>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ISearchRepository _searchRepository;
     private readonly IMapper _mapper;
 
-    public GetSearchesListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public GetSearchesListQueryHandler(ISearchRepository searchRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
+        _searchRepository = searchRepository;
         _mapper = mapper;
     }
 
     public async Task<PagedSearchesListVm> Handle(GetSearchesListQuery query, CancellationToken cancellationToken)
     {
-        var searches = await _unitOfWork.SearchRepository.ListAllAsync(query.Text, query.Page, query.Size);
-        var count = await _unitOfWork.SearchRepository.CountAsync();
+        var searches = await _searchRepository.ListAllAsync(query.Text, query.Page, query.Size);
+        var count = await _searchRepository.CountAsync();
         
         return new PagedSearchesListVm()
         {
