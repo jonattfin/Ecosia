@@ -1,6 +1,8 @@
+using Ecosia.SearchEngine.Domain.Common;
+
 namespace Ecosia.SearchEngine.Domain.Entities;
 
-public class CountryInvestment
+public class CountryInvestment : IEntity
 {
     public Guid Id { get; set; }
 

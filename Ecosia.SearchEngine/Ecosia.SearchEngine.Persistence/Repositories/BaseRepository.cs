@@ -1,9 +1,10 @@
 using Ecosia.SearchEngine.Application.Contracts.Persistence;
+using Ecosia.SearchEngine.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecosia.SearchEngine.Persistence.Repositories;
 
-public class BaseRepository<T> : IAsyncRepository<T> where T : class
+public class BaseRepository<T> : IAsyncRepository<T> where T : class, IEntity
 {
     protected readonly EcosiaDbContext _context;
 

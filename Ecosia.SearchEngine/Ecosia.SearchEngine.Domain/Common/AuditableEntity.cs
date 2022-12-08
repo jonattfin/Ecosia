@@ -1,7 +1,9 @@
 namespace Ecosia.SearchEngine.Domain.Common;
 
-public class AuditableEntity
+public class AuditableEntity : IEntity
 {
+    public Guid Id { get; set; }
+    
     public string? CreatedBy { get; set; } = string.Empty;
 
     public DateTime CreatedDate { get; set; }
